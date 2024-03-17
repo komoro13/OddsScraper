@@ -6,6 +6,8 @@ from time import sleep
 HEADERS = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'}
 URL = "https://en.stoiximan.gr/sport/soccer/next-3-hours/"
 MATCH_DIV_CLASS = "vue-recycle-scroller__item-wrapper"
+TOKEN = "6589363155:AAHegC4NDTAChKUQLMtXpsNKl8zGeIaGgs0"
+TELEGRAM_URL = "https://api.telegram.org/bot" 
 
 class Match_DAT:
      match_name  = ""
@@ -79,8 +81,9 @@ def addMatchToMathes(match_str):
      match = Match_DAT(match_data[0], match_data[2] + "-" + [match_data[3]], over, under)
      return match
 
+
+print(requests.get(TELEGRAM_URL + TOKEN + "/getUpdated"))
 matches_str = download_matches(URL, HEADERS)
 matches = []
-
 for match_str in matches_str:
      print (match_str)
