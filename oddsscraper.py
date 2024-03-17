@@ -8,31 +8,80 @@ HEADERS = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/5
 URL = "https://en.stoiximan.gr/sport/soccer/next-3-hours/"
 MATCH_DIV_CLASS = "vue-recycle-scroller__item-wrapper"
 
+class Match_DAT:
+     match_name  = ""
+     match_time = ""
+     match_over = ""
+     match_under = ""
+     THRESHOLD = 20
+     def __init__(self, name, time, over, under):
+          self.match_name = name
+          self.match_time = time
+          self.match_over = over
+          self.match_under = under
+     def printMatchString(self):
+          print (self.match_name + " Time: " + self.match_time + " Over: " + self.over + " Under: " + self.under)
+     def checkOver(self, over_n):
+          percentage = (100*(self.over-over_n))/self.checkOver
+          if (percentage > self.THRESHOLD):
+               return percentage
+          else:
+               return -1
+     
+        
 def download_matches(url, headers):
     driver = webdriver.Chrome()
     driver.get(URL)
     driver.maximize_window()
     scroll_y = 0
+    matches_divs_array = []
+    x = 0
     while(True):
          scroll_y = driver.execute_script("return window.pageYOffset")
-         driver.execute_script("window.scrollBy(0, 1000)")
+         driver.execute_script("window.scrollBy(0, 200)")
          sleep(5)
+         try:
+            match_divs = driver.find_element(By.CLASS_NAME, MATCH_DIV_CLASS)
+         except:
+            break
+         print("------------------" + str(x) + "-------------------")
+         matches_divs_array = matches_divs_array + match_divs.find_elements(By.XPATH, "*")
+         for matches_div in matches_divs_array:
+             if matches_div.text == "":
+                 matches_divs_array.remove(matches_div)
+         x = x + 1
+         print(len(matches_divs_array))    
          if (driver.execute_script("return window.pageYOffset") == scroll_y):
               break
-    driver.execute_script("window.scrollTo(0, 0)")
-    match_divs = driver.find_element(By.CLASS_NAME, MATCH_DIV_CLASS)
-    matches_divs_array = match_divs.find_elements(By.XPATH, "*")
-    first_element = matches_divs_array[0]
-    last_element = matches_divs_array[-1]
-    match_str = []
+    match_str_array = []
     for match_div in matches_divs_array:
-        if match_div.text != "":
-            match_str.append(match_div.text)
-    return match_str
+                match_str_array.append(match_div.text)
+    print(matches_divs_array.text)
+    found_one = False
+    for match_str in match_str_array:
+        for match_st in match_str_array:
+             if match_str == match_st:
+                 if found_one == True:
+                      match_str_array.remove(match_st)
+                 else:
+                      found_one == False
+        found_one = False
+    return match_str_array
 
-    
-    
-    
-matches = download_matches(URL, HEADERS)
-for match in matches:
-      print(match + "\n")
+def addMatchToMathes(match_str):
+     match_data = match_str.split("\n")
+     over = ""
+     under = ""
+     for attr in match_data:
+          if attr.split(" ")[0] == "O":
+               over = match_data[match_data.index(attr) + 1]
+          if attr.split(" ")[0] == "U":
+               under = match_data[match_data.index(attr) + 1]
+     match = Match_DAT(match_data[0], match_data[2] + "-" + [match_data[3]], over, under)
+     return match
+
+matches_str = download_matches(URL, HEADERS)
+matches = []
+
+for match_str in matches_str:
+     print (match_str)
