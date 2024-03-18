@@ -2,12 +2,16 @@ import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from time import sleep
+from datetime import datetime
 
 HEADERS = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'}
 URL = "https://en.stoiximan.gr/sport/soccer/next-3-hours/"
 MATCH_DIV_CLASS = "vue-recycle-scroller__item-wrapper"
 TOKEN = "6589363155:AAHegC4NDTAChKUQLMtXpsNKl8zGeIaGgs0"
 TELEGRAM_URL = "https://api.telegram.org/bot" 
+CHAT_ID = "-1001751992895"
+TIME_FORMAT = "%H:%M"
+
 
 class Match_DAT:
      match_name  = ""
@@ -15,6 +19,8 @@ class Match_DAT:
      match_over = ""
      match_under = ""
      THRESHOLD = 20
+     MINUTES_SAVE = 120
+     MINUTES_CHECK = 10
      def __init__(self, name, time, over, under):
           self.match_name = name
           self.match_time = time
@@ -22,6 +28,11 @@ class Match_DAT:
           self.match_under = under
      def printMatchString(self):
           print (self.match_name + " Time: " + self.match_time + " Over: " + self.over + " Under: " + self.under)
+     def getTimeDifference(self):
+          d1 = datetime.strptime(self.match_time, TIME_FORMAT)
+          d2 = datetime.now().time
+          return (d1-d2).seconds/60
+     
      def checkOver(self, over_n):
           percentage = (100*(self.over-over_n))/self.checkOver
           if (percentage > self.THRESHOLD):
@@ -80,10 +91,12 @@ def addMatchToMathes(match_str):
                under = match_data[match_data.index(attr) + 1]
      match = Match_DAT(match_data[0], match_data[2] + "-" + [match_data[3]], over, under)
      return match
+def sendMessage(match_str):
+     print(requests.get(TELEGRAM_URL + TOKEN + "/sendMessage?chat_id=" + CHAT_ID + "&text=" + match_str).json())
 
-
-print(requests.get(TELEGRAM_URL + TOKEN + "/getUpdates"))
 matches_str = download_matches(URL, HEADERS)
 matches = []
 for match_str in matches_str:
-     print (match_str)
+     match_s = addMatchToMathes(match_str)
+     sendMessage(match_s.match_name)
+               
