@@ -82,7 +82,7 @@ def addMatchToMathes(match_str):
      return match
 
 
-print(requests.get(TELEGRAM_URL + TOKEN + "/getUpdated"))
+print(requests.get(TELEGRAM_URL + TOKEN + "/getUpdates"))
 matches_str = download_matches(URL, HEADERS)
 matches = []
 for match_str in matches_str:
