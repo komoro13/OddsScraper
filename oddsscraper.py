@@ -66,8 +66,10 @@ def download_matches(url, headers):
               break
     match_str_array = []
     for match_div in matches_divs_array:
-                match_str_array.append(match_div.text)
-    print(matches_divs_array.text)
+                try:
+                    match_str_array.append(match_div.text)
+                except:
+                     break
     found_one = False
     for match_str in match_str_array:
         for match_st in match_str_array:
