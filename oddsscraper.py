@@ -51,7 +51,6 @@ def download_matches(url, headers):
     while(True):
          scroll_y = driver.execute_script("return window.pageYOffset")
          driver.execute_script("window.scrollBy(0, 200)")
-         sleep(5)
          try:
             match_divs = driver.find_element(By.CLASS_NAME, MATCH_DIV_CLASS)
          except:
