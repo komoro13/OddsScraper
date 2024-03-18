@@ -91,6 +91,7 @@ def addMatchToMathes(match_str):
                under = match_data[match_data.index(attr) + 1]
      match = Match_DAT(match_data[0], match_data[2] + "-" + [match_data[3]], over, under)
      return match
+
 def sendMessage(match_str):
      print(requests.get(TELEGRAM_URL + TOKEN + "/sendMessage?chat_id=" + CHAT_ID + "&text=" + match_str).json())
 
