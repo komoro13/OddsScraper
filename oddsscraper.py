@@ -66,15 +66,26 @@ class Match_DAT:
                     match_message += "Drop in Under"
           match_message = ", so it worths suggesting it."
 def download_matches(url, headers):
-    driver = webdriver.Chrome()
+    
+    options = webdriver.ChromeOptions()
+    options.add_argument("--disable-blink-features=AutomatationControlled")
+    options.add_experimental_option("excludeSwitches", ["enable-automatation"])
+    options.add_experimental_option("useAutomatationExtension", False)
+    
+    driver = webdriver.Chrome(options=options)
+
+    driver.execute_script("Object.defineProperty(navigator, 'webdriver',{get: () => undefined})")
+    
     driver.get(URL)
     driver.maximize_window()
     driver.implicitly_wait(1)
+
     cookies_btn = driver.find_element(By.ID, COOKIES_ACCEPT_BTN)
     action = webdriver.ActionChains(driver)
     action.move_to_element(cookies_btn)
     action.click()
     action.perform()
+
     scroll_y = 0
     matches_divs_array = []
     x = 0
