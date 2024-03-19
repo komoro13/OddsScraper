@@ -49,7 +49,7 @@ class Match_DAT:
           c_under = self.checkUnder(under)
           time_ok = self.getTimeDifference() < 5
           if c_over == -1 and c_under == -1 and not time_ok:
-               return ""
+               return "Match " + self.match_name + " is at " + str(self.match_time)
           match_message = "Match " + self.match_name + "has " 
           if c_over != -1:
                match_message += c_over + "%"
@@ -129,14 +129,17 @@ def sendMessage(match_str):
 matches = []
 
 while(True):
-     matches_str = download_matches(URL, HEADERS)
-     print(matches_str)
-     for match_str in matches_str:
-          match_s = addMatchToMathes(match_str)
-          for match in matches:
-               if match_s.match_name == match.match_name:
-                    if match.getMatchMessagge != "":
-                      sendMessage(match.getMatchMessage())
-                      matches.remove(match)
-                    elif WRITE_TIME - 10 < match.getTimeDifference < WRITE_TIME:
-                         matches.append(match_s)
+     try:
+          matches_str = download_matches(URL, HEADERS)
+          print(matches_str)
+          for match_str in matches_str:
+               match_s = addMatchToMathes(match_str)
+               for match in matches:
+                    if match_s.match_name == match.match_name:
+                         if match.getMatchMessagge != "":
+                              sendMessage(match.getMatchMessage())
+                              matches.remove(match)
+                         elif WRITE_TIME - 10 < match.getTimeDifference < WRITE_TIME:
+                               matches.append(match_s)
+     except:
+          continue
