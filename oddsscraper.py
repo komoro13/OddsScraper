@@ -145,18 +145,17 @@ def sendMessage(match_str):
      print(requests.get(TELEGRAM_URL + TOKEN + "/sendMessage?chat_id=" + CHAT_ID + "&text=" + match_str).json())
 
 matches = []
-
+for match_str in download_matches(URL, HEADERS):
+     matches.append(addMatchToMathes(match_str))
 while(True):
-     
-          matches_str = download_matches(URL, HEADERS)
-          print(matches_str)
-          for match_str in matches_str:     
-               match_s = addMatchToMathes(match_str)
-               for match in matches:
-                    if match_s.match_name == match.match_name:
-                         if match.getMatchMessagge != "":
-                              sendMessage(match.getMatchMessage())
-                              matches.remove(match)
-                         elif WRITE_TIME - 10 < match.getTimeDifference < WRITE_TIME:
-                               matches.append(match_s)
-          continue
+     matches_str = download_matches(URL, HEADERS)
+     print(matches_str)
+     for match_str in matches_str:
+          match_s = addMatchToMathes(match_str)
+          for match in matches:
+               if match_s.match_name == match.match_name:
+                     if match.getMatchMessage() != "":
+                         sendMessage(match.getMatchMessage())
+                         matches.remove(match)
+                     elif WRITE_TIME - 10 < match.getTimeDifference < WRITE_TIME:
+                         matches.append(match_s)
