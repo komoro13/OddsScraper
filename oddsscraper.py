@@ -7,6 +7,7 @@ import random
 HEADERS = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'}
 URL = "https://en.stoiximan.gr/sport/soccer/next-3-hours/"
 MATCH_DIV_CLASS = "vue-recycle-scroller__item-wrapper"
+COOKIES_ACCEPT_BTN = "onetrust-accept-btn-handler"
 TOKEN = "6589363155:AAHegC4NDTAChKUQLMtXpsNKl8zGeIaGgs0"
 TELEGRAM_URL = "https://api.telegram.org/bot" 
 CHAT_ID = "-1001751992895"
@@ -68,6 +69,7 @@ def download_matches(url, headers):
     driver = webdriver.Chrome()
     driver.get(URL)
     driver.maximize_window()
+    driver.find_element(By.ID, COOKIES_ACCEPT_BTN).click()
     scroll_y = 0
     matches_divs_array = []
     x = 0
@@ -129,10 +131,10 @@ def sendMessage(match_str):
 matches = []
 
 while(True):
-     try:
+     
           matches_str = download_matches(URL, HEADERS)
           print(matches_str)
-          for match_str in matches_str:
+          for match_str in matches_str:     
                match_s = addMatchToMathes(match_str)
                for match in matches:
                     if match_s.match_name == match.match_name:
@@ -141,5 +143,4 @@ while(True):
                               matches.remove(match)
                          elif WRITE_TIME - 10 < match.getTimeDifference < WRITE_TIME:
                                matches.append(match_s)
-     except:
           continue
