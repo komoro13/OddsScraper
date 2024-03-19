@@ -139,5 +139,5 @@ while(True):
                     if match.getMatchMessagge != "":
                       sendMessage(match.getMatchMessage())
                       matches.remove(match)
-                    elif match.getTimeDifference < WRITE_TIME:
+                    elif WRITE_TIME - 10 < match.getTimeDifference < WRITE_TIME:
                          matches.append(match_s)
