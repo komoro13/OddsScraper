@@ -2,6 +2,7 @@ import requests
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from datetime import datetime
+import random
 
 HEADERS = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'}
 URL = "https://en.stoiximan.gr/sport/soccer/next-3-hours/"
@@ -73,7 +74,8 @@ def download_matches(url, headers):
     match_str_array = []
     while(True):
          scroll_y = driver.execute_script("return window.pageYOffset")
-         driver.execute_script("window.scrollBy(0, 200)")
+         scroll = random.randint(200, 300 )
+         driver.execute_script("window.scrollBy(0, "+ scroll + ")")
          if (driver.execute_script("return window.pageYOffset") == scroll_y):
               break
          try:
