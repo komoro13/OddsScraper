@@ -26,7 +26,7 @@ class Match_DAT:
           self.match_over = over
           self.match_under = under
      def printMatchString(self):
-          print (self.match_name + " Time: " + self.match_time + " Over: " + self.over + " Under: " + self.under)
+          print ""
      def getTimeDifference(self):
           d1 = datetime.strptime(self.match_time, TIME_FORMAT)
           d2 = datetime.now().time
@@ -112,15 +112,12 @@ def download_matches(url, headers):
     for match_str in match_str_array:
          print(len(match_str.split("\n")))
          if len(match_str.split("\n")) < 5:
-             print("deleting: " + match_str.replace("\n", " "))
              match_str_array.remove(match_str)
              continue
          for match_st in match_str_array:
-               print ("----------------------------------\n" + match_st.replace("\n", " ") + "\n?=\n" + match_str.replace("\n", " ") + "\n--------------------------------" )
                if match_str == match_st:
                     print(found_one)
                     if found_one == True:
-                        print("removing: " + match_st)
                         match_str_array.remove(match_st)
                         continue
                     found_one = True
