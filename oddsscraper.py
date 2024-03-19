@@ -73,7 +73,7 @@ def download_matches(url, headers):
     match_str_array = []
     while(True):
          scroll_y = driver.execute_script("return window.pageYOffset")
-         driver.execute_script("window.scrollBy(0, 1000)")
+         driver.execute_script("window.scrollBy(0, 500)")
          if (driver.execute_script("return window.pageYOffset") == scroll_y):
               break
          try:
