@@ -17,7 +17,7 @@ class Match_DAT:
      match_time = ""
      match_over = ""
      match_under = ""
-     THRESHOLD = 20
+     THRESHOLD = 10
      def __init__(self, name, time, over, under):
           self.match_name = name
           self.match_time = time
