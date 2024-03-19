@@ -86,9 +86,6 @@ def download_matches(url, headers):
          if (match_divs.text == ""):
               break
          matches_divs_array = matches_divs_array + match_divs.find_elements(By.XPATH, "*")
-         for matches_div in matches_divs_array:
-             if matches_div.text == "":
-                 matches_divs_array.remove(matches_div)
          for match_div in matches_divs_array:
               match_str_array.append(match_div.text)
          x = x + 1   
