@@ -48,6 +48,7 @@ def download_matches(url, headers):
     scroll_y = 0
     matches_divs_array = []
     x = 0
+    match_str_array = []
     while(True):
          scroll_y = driver.execute_script("return window.pageYOffset")
          driver.execute_script("window.scrollBy(0, 200)")
@@ -56,6 +57,8 @@ def download_matches(url, headers):
          except:
             break
          print("------------------" + str(x) + "-------------------")
+         if (match_divs.text == ""):
+              break
          matches_divs_array = matches_divs_array + match_divs.find_elements(By.XPATH, "*")
          for matches_div in matches_divs_array:
              if matches_div.text == "":
@@ -64,12 +67,9 @@ def download_matches(url, headers):
          print(len(matches_divs_array))    
          if (driver.execute_script("return window.pageYOffset") == scroll_y):
               break
-    match_str_array = []
     for match_div in matches_divs_array:
-                try:
+                    print(match_div.text)
                     match_str_array.append(match_div.text)
-                except:
-                     break
     found_one = False
     for match_str in match_str_array:
         for match_st in match_str_array:
@@ -77,11 +77,12 @@ def download_matches(url, headers):
                  if found_one == True:
                       match_str_array.remove(match_st)
                  else:
-                      found_one == False
+                      found_one == True
         found_one = False
     return match_str_array
 
 def addMatchToMathes(match_str):
+     print(match_str)
      match_data = match_str.split("\n")
      over = ""
      under = ""
