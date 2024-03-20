@@ -153,6 +153,8 @@ while(True):
      for match_str in matches_str:
           match_s = addMatchToMathes(match_str)
           for match in matches:
+               if match.getTimeDifference < 0:
+                    matches.remove(match)
                if match_s.match_name == match.match_name:
                      if match.getMatchMessage() != "":
                          sendMessage(match.getMatchMessage())
