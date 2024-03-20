@@ -151,8 +151,7 @@ while(True):
           continue
      print(matches_str)
      for match_str in matches_str:
-          if len(match_s.split("\n")) > 5: 
-               match_s = addMatchToMathes(match_str)
+          match_s = addMatchToMathes(match_str)
           for match in matches:
                if match_s.match_name == match.match_name:
                      if match.getMatchMessage() != "":
