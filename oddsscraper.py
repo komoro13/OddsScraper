@@ -83,6 +83,7 @@ def download_matches(url, headers):
 
     cookies_btn = driver.find_element(By.ID, COOKIES_ACCEPT_BTN)
     cr = WebCursor(driver)
+    cr.move_to(cookies_btn)
     cr.click_on(cookies_btn)
 
     scroll_y = 0
