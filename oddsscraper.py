@@ -135,7 +135,7 @@ def addMatchToMathes(match_str):
                over = match_data[match_data.index(attr) + 1]
           if attr.split(" ")[0] == "U":
                under = match_data[match_data.index(attr) + 1]
-     match = Match_DAT(match_data[0], match_data[2] + "-" + match_data[3], over, under)
+          match = Match_DAT(match_data[0], match_data[2] + "-" + match_data[3], over, under)
      return match
 
 def sendMessage(match_str):
@@ -151,7 +151,8 @@ while(True):
           continue
      print(matches_str)
      for match_str in matches_str:
-          match_s = addMatchToMathes(match_str)
+          if len(match_s.split("\n")) > 5: 
+               match_s = addMatchToMathes(match_str)
           for match in matches:
                if match_s.match_name == match.match_name:
                      if match.getMatchMessage() != "":
