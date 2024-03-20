@@ -93,11 +93,10 @@ def download_matches(url, headers):
     while(True):
          scroll_y = driver.execute_script("return window.pageYOffset")
          scroll = random.randint(200, 300 )
-         page_x = driver.execute_script("return window.innerWidth")
-         #driver.execute_script("window.scrollBy(0, "+ str(scroll) + ")")
-         #if (driver.execute_script("return window.pageYOffset") == scroll_y):
-          #    print("closing because of offset")
-           #   break
+         driver.execute_script("window.scrollBy(0, "+ str(scroll) + ")")
+         if (driver.execute_script("return window.pageYOffset") == scroll_y):
+              print("closing because of offset")
+              break
          try:
             match_divs = driver.find_element(By.CLASS_NAME, MATCH_DIV_CLASS)
          except:
