@@ -26,7 +26,7 @@ class Match_DAT:
           self.match_over = over
           self.match_under = under
      def printMatchString(self):
-          print ""
+          print (self.match_name + " Time: " + self.match_time + " Over: " + self.over + " Under: " + self.under)
      def getTimeDifference(self):
           d1 = datetime.strptime(self.match_time, TIME_FORMAT)
           d2 = datetime.now().time
@@ -50,7 +50,7 @@ class Match_DAT:
           c_under = self.checkUnder(under)
           time_ok = self.getTimeDifference() < 5
           if c_over == -1 and c_under == -1 and not time_ok:
-               return "Match " + self.match_name + " is at " + str(self.match_time)
+               return ""
           match_message = "Match " + self.match_name + "has " 
           if c_over != -1:
                match_message += c_over + "%"
