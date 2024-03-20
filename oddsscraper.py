@@ -93,7 +93,7 @@ def download_matches(url, headers):
     while(True):
          scroll_y = driver.execute_script("return window.pageYOffset")
          scroll = random.randint(200, 300 )
-         cr.control_scroll_bar(scroll)
+         cr.control_scroll_bar(ammount_by_percentage=0.75)
          #driver.execute_script("window.scrollBy(0, "+ str(scroll) + ")")
          if (driver.execute_script("return window.pageYOffset") == scroll_y):
               break
