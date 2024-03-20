@@ -93,21 +93,24 @@ def download_matches(url, headers):
     while(True):
          scroll_y = driver.execute_script("return window.pageYOffset")
          scroll = random.randint(200, 300 )
-         cr.control_scroll_bar(ammount_by_percentage=0.75)
+         page_x = driver.execute_script("return window.innerWidth")
          #driver.execute_script("window.scrollBy(0, "+ str(scroll) + ")")
-         if (driver.execute_script("return window.pageYOffset") == scroll_y):
-              break
+         #if (driver.execute_script("return window.pageYOffset") == scroll_y):
+          #    print("closing because of offset")
+           #   break
          try:
             match_divs = driver.find_element(By.CLASS_NAME, MATCH_DIV_CLASS)
          except:
+            print("closing because empty")
             break
          print("------------------" + str(x) + "-------------------")
          if (match_divs.text == ""):
+              print("closing because string empty")
               break
          matches_divs_array = matches_divs_array + match_divs.find_elements(By.XPATH, "*")
          for match_div in matches_divs_array:
               match_str_array.append(match_div.text)
-         x = x + 1   
+         x = x + 1
     match_str_array = list(filter(None, match_str_array))
     found_one = False
     for match_str in match_str_array:
@@ -146,10 +149,7 @@ matches = []
 for match_str in download_matches(URL, HEADERS):
      matches.append(addMatchToMathes(match_str))
 while(True):
-     try:
-          matches_str = download_matches(URL, HEADERS)
-     except:
-          continue
+     matches_str = download_matches(URL, HEADERS)
      print(matches_str)
      for match_str in matches_str:
           match_s = addMatchToMathes(match_str)
