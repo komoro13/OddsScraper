@@ -145,7 +145,10 @@ matches = []
 for match_str in download_matches(URL, HEADERS):
      matches.append(addMatchToMathes(match_str))
 while(True):
-     matches_str = download_matches(URL, HEADERS)
+     try:
+          matches_str = download_matches(URL, HEADERS)
+     except:
+          continue
      print(matches_str)
      for match_str in matches_str:
           match_s = addMatchToMathes(match_str)
