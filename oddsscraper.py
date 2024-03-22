@@ -151,14 +151,12 @@ while(len(matches) == 0):
                match = addMatchToMatches(match_str)
           if WRITE_TIME - 10 < match.getTimeDifference() < WRITE_TIME + 10:
                matches.append(match)
-print("Starting")
 while(True):
      matches_str = download_matches(URL, HEADERS)
      for match_str in matches_str:
           if len(match_str.split("\n")) > 5:
                match_s = addMatchToMatches(match_str)
           for match in matches:
-               print(match.match_name)
                if match.getTimeDifference() < 0:
                     matches.remove(match)
                if match_s.match_name == match.match_name:
