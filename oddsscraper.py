@@ -145,13 +145,13 @@ def sendMessage(match_str):
      print(requests.get(TELEGRAM_URL + TOKEN + "/sendMessage?chat_id=" + CHAT_ID + "&text=" + match_str).json())
 
 matches = []
-while(matches == 0):
+while(len(matches) == 0):
      for match_str in download_matches(URL, HEADERS):
           if len(match_str.split("\n")) > 5:
                match = addMatchToMatches(match_str)
           if WRITE_TIME - 10 < match.getTimeDifference() < WRITE_TIME + 10:
                matches.append(match)
-
+print("Starting")
 while(True):
      matches_str = download_matches(URL, HEADERS)
      for match_str in matches_str:
