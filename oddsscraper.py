@@ -80,53 +80,56 @@ def download_matches(url, headers):
     driver.get(URL)
     driver.maximize_window()
     driver.implicitly_wait(1)
-        
+
     cookies_btn = driver.find_element(By.ID, COOKIES_ACCEPT_BTN)
     cr = WebCursor(driver)
     cr.move_to(cookies_btn)
     cr.click_on(cookies_btn)
     
     scroll_y = 0
+    scroll_pos = 0
     matches_divs_array = []
     x = 0
     match_str_array = []
     while(True):
-         scroll_y = driver.execute_script("return window.pageYOffset")
-         scroll = random.randint(200, 300 )
-         driver.execute_script("window.scrollBy(0, "+ str(scroll) + ")")
-         if (driver.execute_script("return window.pageYOffset") == scroll_y):
-              break
-         try:
-            match_divs = driver.find_element(By.CLASS_NAME, MATCH_DIV_CLASS)
-         except:
-            break
-         print("------------------" + str(x) + "-------------------")
-         if (match_divs.text == ""):
-              break
-         matches_divs_array = matches_divs_array + match_divs.find_elements(By.XPATH, "*")
-         for match_div in matches_divs_array:
-              match_str_array.append(match_div.text)
-         x = x + 1
+          try:
+               scroll_y = driver.execute_script("return window.pageYOffset")
+               scroll = random.randint(200, 300 )
+               scroll_pos = scroll_pos + scroll
+               driver.execute_script("window.scrollTo(0, "+ str(scroll_pos) + ")")
+               if (driver.execute_script("return window.pageYOffset") == scroll_y):
+                    break
+               try:
+                   match_divs = driver.find_element(By.CLASS_NAME, MATCH_DIV_CLASS)
+               except:
+                    break
+               if (match_divs.text == ""):
+                    break
+               matches_divs_array = matches_divs_array + match_divs.find_elements(By.XPATH, "*")
+               for match_div in matches_divs_array:
+                    match_str_array.append(match_div.text)
+               x = x + 1
+          except:
+               scroll_pos = scroll_pos - scroll
+               continue
+                   
     match_str_array = list(filter(None, match_str_array))
     found_one = False
-    for match_str in match_str_array:
-         print(len(match_str.split("\n")))
-         if len(match_str.split("\n")) < 5:
-             match_str_array.remove(match_str)
-             continue
-         for match_st in match_str_array:
-               if match_str == match_st:
-                    print(found_one)
+    for iter in range(0, len(match_str_array) - 1):
+         if iter == len(match_str_array):
+              break
+         for itr in range(0, len(match_str_array) - 1):
+               if itr >= len(match_str_array) or iter >= len(match_str_array):
+                    break
+               if match_str_array[iter] == match_str_array[itr]:
                     if found_one == True:
-                        match_str_array.remove(match_st)
+                        match_str_array.remove(match_str_array[itr])
                         continue
                     found_one = True
          found_one = False 
-    for match_s in match_str_array:
-         print("match_str: " + str(match_str_array.index(match_s)) + " " + match_s.replace("\n", " "))
     return match_str_array
 
-def addMatchToMathes(match_str):
+def addMatchToMatches(match_str):
      match_data = match_str.split("\n")
      over = ""
      under = ""
@@ -135,26 +138,32 @@ def addMatchToMathes(match_str):
                over = match_data[match_data.index(attr) + 1]
           if attr.split(" ")[0] == "U":
                under = match_data[match_data.index(attr) + 1]
-          match = Match_DAT(match_data[0], match_data[2] + "-" + match_data[3], over, under)
+          match = Match_DAT(match_data[2] + "-" + match_data[3],match_data[0], over, under)
      return match
 
 def sendMessage(match_str):
      print(requests.get(TELEGRAM_URL + TOKEN + "/sendMessage?chat_id=" + CHAT_ID + "&text=" + match_str).json())
 
 matches = []
-for match_str in download_matches(URL, HEADERS):
-     matches.append(addMatchToMathes(match_str))
+while(matches == 0):
+     for match_str in download_matches(URL, HEADERS):
+          if len(match_str.split("\n")) > 5:
+               match = addMatchToMatches(match_str)
+          if WRITE_TIME - 10 < match.getTimeDifference() < WRITE_TIME + 10:
+               matches.append(match)
+
 while(True):
      matches_str = download_matches(URL, HEADERS)
-     print(matches_str)
      for match_str in matches_str:
-          match_s = addMatchToMathes(match_str)
+          if len(match_str.split("\n")) > 5:
+               match_s = addMatchToMatches(match_str)
           for match in matches:
-               if match.getTimeDifference < 0:
+               print(match.match_name)
+               if match.getTimeDifference() < 0:
                     matches.remove(match)
                if match_s.match_name == match.match_name:
                      if match.getMatchMessage() != "":
                          sendMessage(match.getMatchMessage())
                          matches.remove(match)
-                     elif WRITE_TIME - 10 < match.getTimeDifference < WRITE_TIME:
+                     elif WRITE_TIME - 10 < match.getTimeDifference < WRITE_TIME + 10:
                          matches.append(match_s)
