@@ -80,12 +80,12 @@ def download_matches(url, headers):
     driver.get(URL)
     driver.maximize_window()
     driver.implicitly_wait(1)
-
+        
     cookies_btn = driver.find_element(By.ID, COOKIES_ACCEPT_BTN)
     cr = WebCursor(driver)
     cr.move_to(cookies_btn)
     cr.click_on(cookies_btn)
-
+    
     scroll_y = 0
     matches_divs_array = []
     x = 0
