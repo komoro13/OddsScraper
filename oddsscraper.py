@@ -129,7 +129,7 @@ def addMatchToMatches(match_str):
      match_data = match_str.split("\n")
      over = ""
      under = ""
-     
+
      for attr in match_data:
           if attr.split(" ")[0] == "O":
                over = match_data[match_data.index(attr) + 1]
@@ -142,6 +142,7 @@ def sendMessage(match_str):
      print(requests.get(TELEGRAM_URL + TOKEN + "/sendMessage?chat_id=" + CHAT_ID + "&text=" + match_str).json())
 
 matches = []
+
 while(len(matches) == 0):
      for match_str in download_matches(URL, HEADERS):
           if len(match_str.split("\n")) > 5:
