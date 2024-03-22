@@ -3,6 +3,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from datetime import datetime
 import random
+import time
+import os
 
 HEADERS = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'}
 URL = "https://en.stoiximan.gr/sport/soccer/next-3-hours/"
@@ -29,8 +31,8 @@ class Match_DAT:
           print (self.match_name + " Time: " + self.match_time + " Over: " + self.over + " Under: " + self.under)
      def getTimeDifference(self):
           d1 = datetime.strptime(self.match_time, TIME_FORMAT)
-          d2 = datetime.now().time
-          return (d1-d2).seconds/60
+          d2 = datetime.strptime(time.strftime(TIME_FORMAT, time.localtime()), TIME_FORMAT)
+          return (d1-d2).total_seconds()/60
      
      def checkOver(self, over_n):
           percentage = (100*(self.over-over_n))/self.over
@@ -135,32 +137,36 @@ def addMatchToMatches(match_str):
                over = match_data[match_data.index(attr) + 1]
           if attr.split(" ")[0] == "U":
                under = match_data[match_data.index(attr) + 1]
-          match = Match_DAT(match_data[2] + "-" + match_data[3],match_data[0], over, under)
+          match = Match_DAT(match_data[2] + "-" + match_data[3],match_data[1], over, under)
      return match
 
 def sendMessage(match_str):
      print(requests.get(TELEGRAM_URL + TOKEN + "/sendMessage?chat_id=" + CHAT_ID + "&text=" + match_str).json())
-
+def displayData():
+     os.system("cls")
+     print("Matches loaded: " + str(len(matches)))
+  
 matches = []
 
 while(len(matches) == 0):
      for match_str in download_matches(URL, HEADERS):
-          if len(match_str.split("\n")) > 5:
+          if len(match_str.split("\n")) > 5 and "/" in match_str and ":" in match_str:
                match = addMatchToMatches(match_str)
-          if WRITE_TIME - 10 < match.getTimeDifference() < WRITE_TIME + 10:
-               matches.append(match)
+               if WRITE_TIME - 10 < match.getTimeDifference() < WRITE_TIME + 10:
+                    matches.append(match)
 
 while(True):
      matches_str = download_matches(URL, HEADERS)
      for match_str in matches_str:
-          if len(match_str.split("\n")) > 5:
+          if len(match_str.split("\n")) > 5 and "/" in match_str and ":" in match_str:
                match_s = addMatchToMatches(match_str)
           for match in matches:
                if match.getTimeDifference() < 0:
                     matches.remove(match)
                if match_s.match_name == match.match_name:
-                     if match.getMatchMessage() != "":
+                     if match.getMatchMessage(match_s.match_over, match_s.match_under) != "":
                          sendMessage(match.getMatchMessage())
                          matches.remove(match)
                      elif WRITE_TIME - 10 < match.getTimeDifference < WRITE_TIME + 10:
                          matches.append(match_s)
+     displayData()     
