@@ -3,7 +3,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from datetime import datetime
 import random
-from humancursor import WebCursor
 
 HEADERS = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'}
 URL = "https://en.stoiximan.gr/sport/soccer/next-3-hours/"
@@ -82,9 +81,6 @@ def download_matches(url, headers):
     driver.implicitly_wait(1)
 
     cookies_btn = driver.find_element(By.ID, COOKIES_ACCEPT_BTN)
-    cr = WebCursor(driver)
-    cr.move_to(cookies_btn)
-    cr.click_on(cookies_btn)
     
     scroll_y = 0
     scroll_pos = 0
