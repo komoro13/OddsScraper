@@ -85,7 +85,7 @@ def download_matches(url, headers):
     matches_divs_array = []
     x = 0
     match_str_array = []
-    
+
     while(True):
           try:
                scroll_y = driver.execute_script("return window.pageYOffset")
@@ -146,6 +146,7 @@ while(len(matches) == 0):
                match = addMatchToMatches(match_str)
           if WRITE_TIME - 10 < match.getTimeDifference() < WRITE_TIME + 10:
                matches.append(match)
+               
 while(True):
      matches_str = download_matches(URL, HEADERS)
      for match_str in matches_str:
