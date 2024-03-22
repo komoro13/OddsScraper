@@ -80,12 +80,12 @@ def download_matches(url, headers):
     driver.maximize_window()
     driver.implicitly_wait(1)
 
-    
     scroll_y = 0
     scroll_pos = 0
     matches_divs_array = []
     x = 0
     match_str_array = []
+    
     while(True):
           try:
                scroll_y = driver.execute_script("return window.pageYOffset")
