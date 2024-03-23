@@ -5,6 +5,7 @@ from datetime import datetime
 import random
 import time
 import os
+import undetected_chromedriver
 
 HEADERS = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'}
 URL = "https://en.stoiximan.gr/sport/soccer/next-3-hours/"
@@ -74,14 +75,14 @@ def download_matches(url, headers):
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option("useAutomationExtension", False)
     
-    driver = webdriver.Chrome(options=options)
-
+    driver = undetected_chromedriver.Chrome()
     driver.execute_script("Object.defineProperty(navigator, 'webdriver',{get: () => undefined})")
     
     driver.get(URL)
     driver.maximize_window()
     driver.implicitly_wait(1)
 
+    driver.find_element(By.ID, COOKIES_ACCEPT_BTN).click()
     scroll_y = 0
     scroll_pos = 0
     matches_divs_array = []
