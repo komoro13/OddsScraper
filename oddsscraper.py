@@ -36,15 +36,15 @@ class Match_DAT:
           return (d1-d2).total_seconds()/60
      
      def checkOver(self, over_n):
-          percentage = (100*(self.over-over_n))/self.over
+          percentage = (100*(float(self.match_over)-float(over_n)))/float(self.match_over)
           if (percentage > self.THRESHOLD):
-               return percentage
+               return str(percentage)
           else:
                return -1
      def checkUnder(self, under_n):
-          percentage = (100*(self.under-under_n))/self.match_under
+          percentage = (100*(float(self.match_under)-float(under_n)))/float(self.match_under)
           if (percentage > self.THRESHOLD):
-               return percentage
+               return str(percentage)
           else: 
                return -1
 
@@ -95,7 +95,6 @@ def download_matches(url, headers):
                scroll = random.randint(200, 300 )
                scroll_pos = scroll_pos + scroll
                driver.execute_script("window.scrollTo(0, "+ str(scroll_pos) + ")")
-               time.sleep(1)
                if (driver.execute_script("return window.pageYOffset") == scroll_y):
                     break
                try:
@@ -163,7 +162,7 @@ while(len(matches) == 0):
      for match_str in download_matches(URL, HEADERS):
           if len(match_str.split("\n")) > 5 and "/" in match_str and ":" in match_str:
                match = addMatchToMatches(match_str)
-               if WRITE_TIME - 10 < match.getTimeDifference() < WRITE_TIME + 10:
+               if WRITE_TIME - 20 < match.getTimeDifference() < WRITE_TIME + 20:
                     matches.append(match)
      downloads = downloads + 1
      
@@ -183,6 +182,6 @@ while(True):
                      if match.getMatchMessage(match_s.match_over, match_s.match_under) != "":
                          sendMessage(match.getMatchMessage())
                          matches.remove(match)
-                     elif WRITE_TIME - 10 < match.getTimeDifference < WRITE_TIME + 10:
+                     elif WRITE_TIME - 20 < match.getTimeDifference() < WRITE_TIME + 20:
                          matches.append(match_s)
      displayData()     
