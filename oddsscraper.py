@@ -142,11 +142,17 @@ def addMatchToMatches(match_str):
 
 def sendMessage(match_str):
      print(requests.get(TELEGRAM_URL + TOKEN + "/sendMessage?chat_id=" + CHAT_ID + "&text=" + match_str).json())
+
 def displayData():
      os.system("cls")
+     print("Current data\n")
      print("Matches loaded: " + str(len(matches)))
+     print("Downloads: " + str(len(downloads)))
   
 matches = []
+downloads = 0
+
+print("Wait till a match is added")
 
 while(len(matches) == 0):
      for match_str in download_matches(URL, HEADERS):
@@ -154,9 +160,10 @@ while(len(matches) == 0):
                match = addMatchToMatches(match_str)
                if WRITE_TIME - 10 < match.getTimeDifference() < WRITE_TIME + 10:
                     matches.append(match)
-
+     downloads = downloads + 1
 while(True):
      matches_str = download_matches(URL, HEADERS)
+     downloads = downloads + 1
      for match_str in matches_str:
           if len(match_str.split("\n")) > 5 and "/" in match_str and ":" in match_str:
                match_s = addMatchToMatches(match_str)
