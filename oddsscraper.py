@@ -74,7 +74,7 @@ def download_matches(url, headers):
     options.add_argument("--disable-blink-features=AutomatationControlled")
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option("useAutomationExtension", False)
-    
+     
     driver = undetected_chromedriver.Chrome()
     driver.execute_script("Object.defineProperty(navigator, 'webdriver',{get: () => undefined})")
     
