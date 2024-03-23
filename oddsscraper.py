@@ -95,7 +95,7 @@ def download_matches(url, headers):
                scroll = random.randint(200, 300 )
                scroll_pos = scroll_pos + scroll
                driver.execute_script("window.scrollTo(0, "+ str(scroll_pos) + ")")
-               time.sleep(3)
+               time.sleep(1)
                if (driver.execute_script("return window.pageYOffset") == scroll_y):
                     break
                try:
