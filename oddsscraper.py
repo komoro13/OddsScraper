@@ -114,6 +114,7 @@ def download_matches(url, headers):
     driver.close()                   
     match_str_array = list(filter(None, match_str_array))
     found_one = False
+    
     for iter in range(0, len(match_str_array) - 1):
          if iter == len(match_str_array):
               break
@@ -171,7 +172,7 @@ print("First matches are loaded")
 while(True):
      matches_str = download_matches(URL, HEADERS)
      downloads = downloads + 1
-     
+
      for match_str in matches_str:
           if len(match_str.split("\n")) > 5 and "/" in match_str and ":" in match_str:
                match_s = addMatchToMatches(match_str)
