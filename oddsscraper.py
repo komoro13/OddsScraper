@@ -68,6 +68,7 @@ class Match_DAT:
                else:
                     match_message += "Drop in Under"
           match_message = ", so it worths suggesting it."
+          
 def download_matches(url, headers):
     
     options = webdriver.ChromeOptions()
@@ -156,6 +157,7 @@ matches = []
 downloads = 0
 
 print("Wait till a match is added")
+
 while(len(matches) == 0):
      for match_str in download_matches(URL, HEADERS):
           if len(match_str.split("\n")) > 5 and "/" in match_str and ":" in match_str:
