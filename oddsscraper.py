@@ -111,7 +111,7 @@ def download_matches(url, headers):
           except:
                scroll_pos = scroll_pos - scroll
                continue
-                   
+    driver.close()                   
     match_str_array = list(filter(None, match_str_array))
     found_one = False
     for iter in range(0, len(match_str_array) - 1):
