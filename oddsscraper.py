@@ -165,7 +165,8 @@ while(len(matches) == 0):
                if WRITE_TIME - 10 < match.getTimeDifference() < WRITE_TIME + 10:
                     matches.append(match)
      downloads = downloads + 1
-     displayData()
+     
+print("First matches are loaded")
 
 while(True):
      matches_str = download_matches(URL, HEADERS)
