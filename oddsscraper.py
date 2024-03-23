@@ -68,7 +68,7 @@ class Match_DAT:
                else:
                     match_message += "Drop in Under"
           match_message = ", so it worths suggesting it."
-          
+
 def download_matches(url, headers):
     
     options = webdriver.ChromeOptions()
