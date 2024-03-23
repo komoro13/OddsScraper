@@ -145,9 +145,9 @@ def sendMessage(match_str):
 
 def displayData():
      os.system("cls")
-     print("Current data\n")
+     print("Current data")
      print("Matches loaded: " + str(len(matches)))
-     print("Downloads: " + str(len(downloads)))
+     print("Downloads: " + str(downloads))
   
 matches = []
 downloads = 0
@@ -161,6 +161,8 @@ while(len(matches) == 0):
                if WRITE_TIME - 10 < match.getTimeDifference() < WRITE_TIME + 10:
                     matches.append(match)
      downloads = downloads + 1
+     displayData()
+
 while(True):
      matches_str = download_matches(URL, HEADERS)
      downloads = downloads + 1
