@@ -171,6 +171,7 @@ print("First matches are loaded")
 while(True):
      matches_str = download_matches(URL, HEADERS)
      downloads = downloads + 1
+     
      for match_str in matches_str:
           if len(match_str.split("\n")) > 5 and "/" in match_str and ":" in match_str:
                match_s = addMatchToMatches(match_str)
