@@ -80,8 +80,7 @@ def download_matches(url, headers):
     
     driver.get(URL)
     driver.maximize_window()
-    driver.implicitly_wait(1)
-
+    
     driver.find_element(By.ID, COOKIES_ACCEPT_BTN).click()
     scroll_y = 0
     scroll_pos = 0
