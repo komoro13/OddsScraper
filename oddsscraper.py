@@ -80,7 +80,7 @@ def download_matches(url, headers):
     
     driver.get(URL)
     driver.maximize_window()
-    
+
     driver.find_element(By.ID, COOKIES_ACCEPT_BTN).click()
     scroll_y = 0
     scroll_pos = 0
@@ -156,7 +156,6 @@ matches = []
 downloads = 0
 
 print("Wait till a match is added")
-
 while(len(matches) == 0):
      for match_str in download_matches(URL, HEADERS):
           if len(match_str.split("\n")) > 5 and "/" in match_str and ":" in match_str:
