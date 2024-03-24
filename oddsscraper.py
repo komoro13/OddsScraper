@@ -167,8 +167,6 @@ while(len(matches) == 0):
                     matches.append(match)
      downloads = downloads + 1
      
-print("First matches are loaded")
-
 found = False
 
 while(True):
