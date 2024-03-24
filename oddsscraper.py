@@ -49,20 +49,20 @@ class Match_DAT:
                return -1
 
      def getMatchMessage(self, over, under):
-          c_over = self.checkOver(over)
-          c_under = self.checkUnder(under)
+          c_over = float(self.checkOver(over))
+          c_under = float(self.checkUnder(under))
           time_ok = self.getTimeDifference() < 5
           if c_over == -1 and c_under == -1 and not time_ok:
                return ""
           match_message = "Match " + self.match_name + "has " 
           if c_over != -1:
-               match_message += c_over + "%"
+               match_message += str(c_over) + "%"
                if self.checkOver() > 0:
                     match_message += " Rise in Over"
                else:
                     match_message += " Drop in Over"
           if c_under != -1:
-               match_message += " and " + c_under + "%"
+               match_message += " and " + str(c_under) + "%"
                if c_under > 0:
                     match_message += "Rise in Under"
                else:
