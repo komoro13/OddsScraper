@@ -62,7 +62,7 @@ class Match_DAT:
                else:
                     match_message += " Drop in Over"
           if c_under != -1:
-               match_message += " and " + self.checkUnder() + "%"
+               match_message += " and " + c_under + "%"
                if c_under > 0:
                     match_message += "Rise in Under"
                else:
