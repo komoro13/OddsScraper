@@ -57,12 +57,12 @@ class Match_DAT:
           match_message = "Match " + self.match_name + "has " 
           if c_over != -1:
                match_message += c_over + "%"
-               if self.checkOver > 0:
+               if self.checkOver() > 0:
                     match_message += " Rise in Over"
                else:
                     match_message += " Drop in Over"
           if c_under != -1:
-               match_message += " and " + self.checkOver + "%"
+               match_message += " and " + self.checkUnder() + "%"
                if c_under > 0:
                     match_message += "Rise in Under"
                else:
