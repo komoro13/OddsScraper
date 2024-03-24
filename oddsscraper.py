@@ -183,8 +183,9 @@ while(True):
                     matches.remove(match)
                if match_s.match_name == match.match_name:
                      found = True
-                     if match.getMatchMessage(match_s.match_over, match_s.match_under) != "":
-                         sendMessage(match.getMatchMessage())
+                     match_message = match.getMatchMessage(match_s.match_over, match_s.match_under)
+                     if match_message != "":
+                         sendMessage(match_message)
                          matches.remove(match)
           if found == False and WRITE_TIME - 20 < match.getTimeDifference() < WRITE_TIME + 20:
                          matches.append(match_s)
