@@ -168,20 +168,24 @@ while(len(matches) == 0):
      
 print("First matches are loaded")
 
+found = False
+
 while(True):
      matches_str = download_matches(URL, HEADERS)
      downloads = downloads + 1
 
      for match_str in matches_str:
+          found = False
           if len(match_str.split("\n")) > 5 and "/" in match_str and ":" in match_str:
                match_s = addMatchToMatches(match_str)
           for match in matches:
                if match.getTimeDifference() < 0:
                     matches.remove(match)
                if match_s.match_name == match.match_name:
+                     found = True
                      if match.getMatchMessage(match_s.match_over, match_s.match_under) != "":
                          sendMessage(match.getMatchMessage())
                          matches.remove(match)
-                     elif WRITE_TIME - 20 < match.getTimeDifference() < WRITE_TIME + 20:
+          if found == False and WRITE_TIME - 20 < match.getTimeDifference() < WRITE_TIME + 20:
                          matches.append(match_s)
      displayData()     
