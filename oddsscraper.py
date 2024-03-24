@@ -151,8 +151,7 @@ def displayData():
      print("Matches loaded: " + str(len(matches)))
      print("Downloads: " + str(downloads))
      print("Matches: ")
-     for match in matches:
-          print(match.match_name)
+     
   
 matches = []
 downloads = 0
