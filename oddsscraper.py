@@ -35,7 +35,7 @@ class Match_DAT:
           d2 = datetime.strptime(time.strftime(TIME_FORMAT, time.localtime()), TIME_FORMAT)
           return (d1-d2).total_seconds()/60
      
-     def checkOver(self, over_n):
+     def checkOver(self, over_n):  
           percentage = (100*(float(self.match_over)-float(over_n)))/float(self.match_over)
           if (percentage > self.THRESHOLD):
                return str(percentage)
@@ -67,7 +67,7 @@ class Match_DAT:
                     match_message += "Rise in Under"
                else:
                     match_message += "Drop in Under"
-          match_message = ", so it worths suggesting it."
+          match_message += ", so it worths suggesting it."
           return match_message
 
 def download_matches(url, headers):
