@@ -51,8 +51,7 @@ class Match_DAT:
      def getMatchMessage(self, over, under):
           c_over = float(self.checkOver(over))
           c_under = float(self.checkUnder(under))
-          time_ok = self.getTimeDifference() < 10
-          if c_over == -1 and c_under == -1 or not time_ok:
+          if c_over == -1 and c_under == -1:
                return ""
           match_message = "Match " + self.match_name + " has "
           if c_over != -1:
