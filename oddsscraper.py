@@ -36,13 +36,13 @@ class Match_DAT:
           return (d1-d2).total_seconds()/60
      
      def checkOver(self, over_n):  
-          percentage = (100*(float(self.match_over)-float(over_n)))/float(self.match_over)
+          percentage = (100*(float(over_n)) - float(self.match_over))/float(self.match_over)
           if (percentage > self.THRESHOLD):
                return str(percentage)
           else:
                return -1
      def checkUnder(self, under_n):
-          percentage = (100*(float(self.match_under)-float(under_n)))/float(self.match_under)
+          percentage = (100*(float(under_n) - float(self.match_under) ))/float(self.match_under)
           if (percentage > self.THRESHOLD):
                return str(percentage)
           else: 
@@ -51,10 +51,10 @@ class Match_DAT:
      def getMatchMessage(self, over, under):
           c_over = float(self.checkOver(over))
           c_under = float(self.checkUnder(under))
-          time_ok = self.getTimeDifference() < 5
-          if c_over == -1 and c_under == -1 and not time_ok:
+          time_ok = self.getTimeDifference() < 10
+          if c_over == -1 and c_under == -1 or not time_ok:
                return ""
-          match_message = "Match " + self.match_name + "has " 
+          match_message = "Match " + self.match_name + " has "
           if c_over != -1:
                match_message += str(c_over) + "%"
                if self.checkOver() > 0:
