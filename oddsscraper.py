@@ -22,12 +22,20 @@ class Match_DAT:
      match_time = ""
      match_over = ""
      match_under = ""
+     match_x = ""
+     match_1 = ""
+     match_2 = ""
+     match_over_goals = ""
+     match_under_goals = ""
      THRESHOLD = 10
-     def __init__(self, name, time, over, under):
+     def __init__(self, name, time, over, under, x, assos, diplo, over_goals, under_goals):
           self.match_name = name
           self.match_time = time
           self.match_over = over
           self.match_under = under
+          self.match_x = x
+          self.match_1 = assos
+          self.match_2 = diplo
      def printMatchString(self):
           print (self.match_name + " Time: " + self.match_time + " Over: " + self.over + " Under: " + self.under)
      def getTimeDifference(self):
@@ -132,13 +140,25 @@ def addMatchToMatches(match_str):
      match_data = match_str.split("\n")
      over = ""
      under = ""
+     x = ""
+     assos = ""
+     diplo = ""
+     over_goals = ""
+     under_goals = ""
+
+     if match_data[4].isnumeric():
+          assos = match_data[4]
+          x = match_data[5]
+          diplo = match_data[6]
 
      for attr in match_data:
           if attr.split(" ")[0] == "O":
                over = match_data[match_data.index(attr) + 1]
+               over_goals = attr.split(" ")[1]
           if attr.split(" ")[0] == "U":
                under = match_data[match_data.index(attr) + 1]
-          match = Match_DAT(match_data[2] + "-" + match_data[3],match_data[1], over, under)
+               under_goals = attr.split(" ")[1]
+          match = Match_DAT(match_data[2] + "-" + match_data[3],match_data[1], over, under,x, assos, diplo, over_goals, under_goals)
      return match
 
 def sendMessage(match_str):
