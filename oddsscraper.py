@@ -43,38 +43,124 @@ class Match_DAT:
           d2 = datetime.strptime(time.strftime(TIME_FORMAT, time.localtime()), TIME_FORMAT)
           return (d1-d2).total_seconds()/60
      
-     def checkOver(self, over_n):  
+     def checkOver(self, over_n):
+          if not self.match_over.isnumeric() or not over_n.isnumeric():
+               return -1  
           percentage = 100*((float(over_n)) - float(self.match_over))/float(self.match_over)
           if (percentage > self.THRESHOLD):
                return str(percentage)
           else:
                return -1
+          
      def checkUnder(self, under_n):
+          if not self.match_under.isnumeric() or not under_n.isnumeric():
+               return -1
           percentage = 100*((float(under_n) - float(self.match_under) ))/float(self.match_under)
           if (percentage > self.THRESHOLD):
                return str(percentage)
           else: 
                return -1
-
-     def getMatchMessage(self, over, under):
+          
+     def checkX(self, x_n):
+          if not self.match_x.isnumeric() or not x_n.isnumeric():
+               return -1
+          percentage = 100*((float(x_n) - float(self.match_x) ))/float(self.match_x)
+          if (percentage > self.THRESHOLD):
+               return str(percentage)
+          else: 
+               return -1
+          
+     def check1(self, assos_n):
+          if not self.match_1.isnumeric() or not assos_n.isnumeric():
+               return -1
+          percentage = 100*((float(assos_n) - float(self.match_1) ))/float(self.match_1)
+          if (percentage > self.THRESHOLD):
+               return str(percentage)
+          else: 
+               return -1
+          
+     def check2(self, diplo_n):
+          if not self.match_2.isnumeric() or not diplo_n.isnumeric():
+               return -1
+          percentage = 100*((float(diplo_n) - float(self.match_2) ))/float(self.match_2)
+          if (percentage > self.THRESHOLD):
+               return str(percentage)
+          else: 
+               return -1
+          
+     def checkOverGoals(self, over_goals_n):
+          if not self.match_over_goals.isnumeric() or not over_goals_n.isnumeric():
+               return False
+          if self.match_over_goals == over_goals_n:
+               return True
+          else :
+               return False
+          
+     def checkUnderGoals(self, under_goals_n):
+          if not self.match_over_goals.isnumeric() or not under_goals_n.isnumeric():
+               return False
+          if self.match_under_goals == under_goals_n:
+               return True
+          else :
+               return False
+          
+     def getMatchMessage(self, over, under, x, assos, diplo, over_goals, under_goals):
           c_over = float(self.checkOver(over))
           c_under = float(self.checkUnder(under))
-          if c_over == -1 and c_under == -1:
+          
+          c_x = float(self.checkX(x))
+          c_1 = float(self.check1(assos))
+          c_2 = float(self.check2(diplo))
+          
+          c_over_goals = self.checkOverGoals(over_goals)
+          c_under_goals = self.checkUnderGoals(under_goals)
+
+          if c_over == -1 and c_under == -1 and c_x == -1 and c_1 == -1 and c_2 == -1 and not c_over_goals and not c_under_goals:
                return ""
-          match_message = "Match " + self.match_name + " has "
-          if c_over != -1:
+          
+          match_message = "Match " + self.match_name + " has\n "
+
+          if (c_over_goals == True):
+               match_message += "a change in over as previous over was over " + self.match_over_goals + "and now it is over " + over_goals 
+          if (c_under_goals == True ):
+               match_message += " and a change in under as previous under was under " + self.match_under_goals + "and now it is under " + under_goals
+          
+          if c_over != -1 and  not c_over_goals:
                match_message += str(c_over) + "%"
                if c_over > 0:
-                    match_message += " Rise in Over"
+                    match_message += " Rise in Over\n "
                else:
-                    match_message += " Drop in Over"
-          if c_under != -1:
-               match_message += " and " + str(c_under) + "%"
+                    match_message += " Drop in Over\n "
+          
+          if c_under != -1 and not c_under_goals:
+               match_message +=  str(c_under) + "%"
                if c_under > 0:
-                    match_message += "Rise in Under"
+                    match_message += " Rise in Under\n "
                else:
-                    match_message += "Drop in Under"
+                    match_message += " Drop in Under\n "
+
+          if c_x != -1:
+               match_message += str(c_x) + "%"
+               if c_x > 0:
+                    match_message += " Rise in x\n"
+               else:
+                    match_message += " Drop in x\n"
+          if c_1 != -1:
+               match_message +=  + str(c_1) + "%"
+               if c_1 > 0:
+                    match_message += " Rise in 1\n"
+               else:
+                    match_message += " Drop in 1\n"
+
+          if c_2 != -1:
+               match_message += str(c_2) + "%"
+               if c_2 > 0:
+                    match_message += " Rise in 2\n"
+               else:
+                    match_message += " Drop in 2\n" 
+          
           match_message += ", so it worths suggesting it."
+          
           return match_message
 
 def download_matches(url, headers):
@@ -145,20 +231,31 @@ def addMatchToMatches(match_str):
      diplo = ""
      over_goals = ""
      under_goals = ""
+     try:     
+          if match_data[4].isnumeric():
+               assos = match_data[4]
+               x = match_data[5]
+               diplo = match_data[6]
+     except :
+          x = ""
+          assos = ""
+          diplo = ""
 
-     if match_data[4].isnumeric():
-          assos = match_data[4]
-          x = match_data[5]
-          diplo = match_data[6]
-
-     for attr in match_data:
-          if attr.split(" ")[0] == "O":
-               over = match_data[match_data.index(attr) + 1]
-               over_goals = attr.split(" ")[1]
-          if attr.split(" ")[0] == "U":
-               under = match_data[match_data.index(attr) + 1]
-               under_goals = attr.split(" ")[1]
-          match = Match_DAT(match_data[2] + "-" + match_data[3],match_data[1], over, under,x, assos, diplo, over_goals, under_goals)
+     try:
+          for attr in match_data:
+               if attr.split(" ")[0] == "O":
+                    over = match_data[match_data.index(attr) + 1]
+                    over_goals = attr.split(" ")[1]
+               if attr.split(" ")[0] == "U":
+                    under = match_data[match_data.index(attr) + 1]
+                    under_goals = attr.split(" ")[1]
+               match = Match_DAT(match_data[2] + "-" + match_data[3],match_data[1], over, under,x, assos, diplo, over_goals, under_goals)
+     except:
+          over = ""
+          under = ""
+          over_goals = ""
+          under_goals = ""
+     
      return match
 
 def sendMessage(match_str):
