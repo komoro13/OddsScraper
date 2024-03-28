@@ -297,7 +297,7 @@ while(True):
                     matches.remove(match)
                if match_s.match_name == match.match_name:
                      found = True
-                     match_message = match.getMatchMessage(match_s.match_over, match_s.match_under)
+                     match_message = match.getMatchMessage(match_s.match_over, match_s.match_under, match_s.match_x, match_s.match_1, match_s.match_2, match_s.match_over_goals, match_s.match_under_goals)
                      if match_message != "":
                          sendMessage(match_message)
                          matches.remove(match)
