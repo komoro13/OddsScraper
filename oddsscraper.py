@@ -274,7 +274,7 @@ downloads = 0
 
 print("Wait till a match is added")
 
-def refillMatches():
+def addMatchesToList():
      while(len(matches) == 0):
           for match_str in download_matches(URL, HEADERS):
                if len(match_str.split("\n")) > 5 and "/" in match_str and ":" in match_str:
@@ -288,8 +288,8 @@ found = False
 
 while(True):
      if len(matches) == 0:
-          refillMatches()
-          
+          addMatchesToList()
+
      matches_str = download_matches(URL, HEADERS)
      downloads = downloads + 1
 
