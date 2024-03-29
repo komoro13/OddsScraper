@@ -287,6 +287,7 @@ def addMatchesToList():
 found = False
 
 while(True):
+     
      if len(matches) == 0:
           addMatchesToList()
 
