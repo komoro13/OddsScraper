@@ -276,14 +276,11 @@ def displayData():
      print("Matches loaded: " + str(len(matches)))
      print("Downloads: " + str(downloads))
      print("Matches: ")
-
-
   
 matches = []
 downloads = 0
 
 print("Wait till a match is added")
-
      
 found = False
 
