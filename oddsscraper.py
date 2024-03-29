@@ -274,17 +274,22 @@ downloads = 0
 
 print("Wait till a match is added")
 
-while(len(matches) == 0):
-     for match_str in download_matches(URL, HEADERS):
-          if len(match_str.split("\n")) > 5 and "/" in match_str and ":" in match_str:
-               match = addMatchToMatches(match_str)
-               if WRITE_TIME - 20 < match.getTimeDifference() < WRITE_TIME + 20:
-                    matches.append(match)
-     downloads = downloads + 1
+def refillMatches():
+     while(len(matches) == 0):
+          for match_str in download_matches(URL, HEADERS):
+               if len(match_str.split("\n")) > 5 and "/" in match_str and ":" in match_str:
+                    match = addMatchToMatches(match_str)
+                    if WRITE_TIME - 20 < match.getTimeDifference() < WRITE_TIME + 20:
+                         matches.append(match)
+          downloads = downloads + 1
+     return
      
 found = False
 
 while(True):
+     if len(matches) == 0:
+          refillMatches()
+          
      matches_str = download_matches(URL, HEADERS)
      downloads = downloads + 1
 
