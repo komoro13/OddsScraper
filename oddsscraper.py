@@ -165,18 +165,10 @@ class Match_DAT:
 
 def download_matches(url, headers):
     
-    options = webdriver.ChromeOptions()
-    options.add_argument("--disable-blink-features=AutomatationControlled")
-    options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    options.add_experimental_option("useAutomationExtension", False)
-     
     driver = undetected_chromedriver.Chrome()
-    driver.execute_script("Object.defineProperty(navigator, 'webdriver',{get: () => undefined})")
-    
     driver.get(URL)
     driver.maximize_window()
 
-    driver.find_element(By.ID, COOKIES_ACCEPT_BTN).click()
     scroll_y = 0
     scroll_pos = 0
     matches_divs_array = []
@@ -200,6 +192,7 @@ def download_matches(url, headers):
                matches_divs_array = matches_divs_array + match_divs.find_elements(By.XPATH, "*")
                for match_div in matches_divs_array:
                     match_str_array.append(match_div.text)
+               matches_divs_array = []
                x = x + 1
           except:
                scroll_pos = scroll_pos - scroll
