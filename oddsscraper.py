@@ -93,16 +93,14 @@ class Match_DAT:
                return False
           if self.match_over_goals != over_goals_n:
                return True
-          else :
-               return False
+          return False
           
      def checkUnderGoals(self, under_goals_n):
           if self.match_over_goals == "" or under_goals_n == "":
                return False
           if self.match_under_goals != under_goals_n:
                return True
-          else :
-               return False
+          return False
           
      def getMatchMessage(self, over, under, x, assos, diplo, over_goals, under_goals):
           c_over = float(self.checkOver(over))
@@ -128,32 +126,32 @@ class Match_DAT:
           if c_over != -1 and  not c_over_goals:
                match_message += str(c_over) + "%"
                if c_over > 0:
-                    match_message += " Rise in Over\n "
+                    match_message += " Rise in Over " + self.match_over_goals + " \n "
                else:
-                    match_message += " Drop in Over\n "
+                    match_message += " Drop in Over" + self.match_over_goals + " \n"
           
           if c_under != -1 and not c_under_goals:
                match_message +=  str(c_under) + "%"
                if c_under > 0:
-                    match_message += " Rise in Under\n "
+                    match_message += " Rise in Under " + self.match_under_goals +" \n "
                else:
-                    match_message += " Drop in Under\n "
+                    match_message += " Drop in Under " + self.match_under_goals + " \n"
 
           if c_x != -1:
-               match_message += str(c_x) + "%"
+               match_message += str(c_x) + " % "
                if c_x > 0:
                     match_message += " Rise in x\n"
                else:
                     match_message += " Drop in x\n"
           if c_1 != -1:
-               match_message += str(c_1) + "%"
+               match_message += str(c_1) + " % "
                if c_1 > 0:
                     match_message += " Rise in 1\n"
                else:
                     match_message += " Drop in 1\n"
 
           if c_2 != -1:
-               match_message += str(c_2) + "%"
+               match_message += str(c_2) + " % "
                if c_2 > 0:
                     match_message += " Rise in 2\n"
                else:
