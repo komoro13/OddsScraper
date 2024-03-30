@@ -27,7 +27,7 @@ class Match_DAT:
      match_2 = ""
      match_over_goals = ""
      match_under_goals = ""
-     THRESHOLD = 1
+     THRESHOLD = 10
      def __init__(self, name, time, over, under, x, assos, diplo, over_goals, under_goals):
           self.match_name = name
           self.match_time = time
@@ -47,7 +47,7 @@ class Match_DAT:
           if not self.match_over.isnumeric() or not over_n.isnumeric():
                return -1  
           percentage = 100*((float(over_n)) - float(self.match_over))/float(self.match_over)
-          if (percentage > self.THRESHOLD):
+          if (abs(percentage) > self.THRESHOLD):
                return str(percentage)
           else:
                return -1
@@ -56,7 +56,7 @@ class Match_DAT:
           if not self.match_under.isnumeric() or not under_n.isnumeric():
                return -1
           percentage = 100*((float(under_n) - float(self.match_under) ))/float(self.match_under)
-          if (percentage > self.THRESHOLD):
+          if (abs(percentage) > self.THRESHOLD):
                return str(percentage)
           else: 
                return -1
@@ -65,7 +65,7 @@ class Match_DAT:
           if not self.match_x.isnumeric() or not x_n.isnumeric():
                return -1
           percentage = 100*((float(x_n) - float(self.match_x) ))/float(self.match_x)
-          if (percentage > self.THRESHOLD):
+          if (abs(percentage) > self.THRESHOLD):
                return str(percentage)
           else: 
                return -1
@@ -74,7 +74,7 @@ class Match_DAT:
           if not self.match_1.isnumeric() or not assos_n.isnumeric():
                return -1
           percentage = 100*((float(assos_n) - float(self.match_1) ))/float(self.match_1)
-          if (percentage > self.THRESHOLD):
+          if (abs(percentage) > self.THRESHOLD):
                return str(percentage)
           else: 
                return -1
@@ -83,7 +83,7 @@ class Match_DAT:
           if not self.match_2.isnumeric() or not diplo_n.isnumeric():
                return -1
           percentage = 100*((float(diplo_n) - float(self.match_2) ))/float(self.match_2)
-          if (percentage > self.THRESHOLD):
+          if (abs(percentage) > self.THRESHOLD):
                return str(percentage)
           else: 
                return -1
