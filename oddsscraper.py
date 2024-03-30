@@ -44,7 +44,7 @@ class Match_DAT:
           return (d1-d2).total_seconds()/60
      
      def checkOver(self, over_n):
-          if not self.match_over.isnumeric() or not over_n.isnumeric():
+          if self.match_over == "" or over_n == "":
                return -1  
           percentage = 100*((float(over_n)) - float(self.match_over))/float(self.match_over)
           if (abs(percentage) > self.THRESHOLD):
@@ -53,7 +53,7 @@ class Match_DAT:
                return -1
           
      def checkUnder(self, under_n):
-          if not self.match_under.isnumeric() or not under_n.isnumeric():
+          if self.match_under == "" or under_n == "":
                return -1
           percentage = 100*((float(under_n) - float(self.match_under) ))/float(self.match_under)
           if (abs(percentage) > self.THRESHOLD):
@@ -62,7 +62,7 @@ class Match_DAT:
                return -1
           
      def checkX(self, x_n):
-          if not self.match_x.isnumeric() or not x_n.isnumeric():
+          if self.match_x == "" or not x_n == "":
                return -1
           percentage = 100*((float(x_n) - float(self.match_x) ))/float(self.match_x)
           if (abs(percentage) > self.THRESHOLD):
@@ -71,7 +71,7 @@ class Match_DAT:
                return -1
           
      def check1(self, assos_n):
-          if not self.match_1.isnumeric() or not assos_n.isnumeric():
+          if self.match_1 == "" or assos_n == "":
                return -1
           percentage = 100*((float(assos_n) - float(self.match_1) ))/float(self.match_1)
           if (abs(percentage) > self.THRESHOLD):
@@ -80,7 +80,7 @@ class Match_DAT:
                return -1
           
      def check2(self, diplo_n):
-          if not self.match_2.isnumeric() or not diplo_n.isnumeric():
+          if self.match_2 == "" or not diplo_n == "":
                return -1
           percentage = 100*((float(diplo_n) - float(self.match_2) ))/float(self.match_2)
           if (abs(percentage) > self.THRESHOLD):
@@ -89,17 +89,17 @@ class Match_DAT:
                return -1
           
      def checkOverGoals(self, over_goals_n):
-          if not self.match_over_goals.isnumeric() or not over_goals_n.isnumeric():
+          if self.match_over_goals == "" or over_goals_n == "":
                return False
-          if self.match_over_goals == over_goals_n:
+          if self.match_over_goals != over_goals_n:
                return True
           else :
                return False
           
      def checkUnderGoals(self, under_goals_n):
-          if not self.match_over_goals.isnumeric() or not under_goals_n.isnumeric():
+          if self.match_over_goals == "" or under_goals_n == "":
                return False
-          if self.match_under_goals == under_goals_n:
+          if self.match_under_goals != under_goals_n:
                return True
           else :
                return False
@@ -146,7 +146,7 @@ class Match_DAT:
                else:
                     match_message += " Drop in x\n"
           if c_1 != -1:
-               match_message +=  + str(c_1) + "%"
+               match_message += str(c_1) + "%"
                if c_1 > 0:
                     match_message += " Rise in 1\n"
                else:
@@ -225,7 +225,7 @@ def addMatchToMatches(match_str):
      over_goals = ""
      under_goals = ""
      try:     
-          if match_data[4].isnumeric():
+          if  "." in match_data[4]:
                assos = match_data[4]
                x = match_data[5]
                diplo = match_data[6]
