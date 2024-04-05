@@ -124,7 +124,7 @@ class Match_DAT:
                match_message += " and a change in under as previous under was under " + self.match_under_goals + "and now it is under " + under_goals
           
           if c_over != -1 and  not c_over_goals:
-               match_message += str(c_over) + "%"
+               match_message += str(c_over) + " % "
                if c_over > 0:
                     match_message += " Rise in Over " + self.match_over_goals + " \n"
                else:
@@ -132,7 +132,7 @@ class Match_DAT:
                match_message += " \n Previous Over: " + self.match_over + " Current over: " + over + "\n"
 
           if c_under != -1 and not c_under_goals:
-               match_message +=  str(c_under) + "%"
+               match_message +=  str(c_under) + " % "
                if c_under > 0:
                     match_message += " Rise in Under " + self.match_under_goals +" \n "
                else:
@@ -153,7 +153,7 @@ class Match_DAT:
                     match_message += " Rise in 1\n"
                else:
                     match_message += " Drop in 1\n"
-               match_message += " \n Previous 1: " + self.match_1 + " Current over: " + assos + "\n"
+               match_message += " \n Previous 1: " + self.match_1 + " Current 1: " + assos + "\n"
 
           if c_2 != -1:
                match_message += str(c_2) + " % "
@@ -161,7 +161,7 @@ class Match_DAT:
                     match_message += " Rise in 2\n"
                else:
                     match_message += " Drop in 2\n" 
-               match_message += " \n Previous 2: " + self.match_2 + " Current over: " + diplo + "\n"
+               match_message += " \n Previous 2: " + self.match_2 + " Current 2: " + diplo + "\n"
           
           match_message += ", so it worths suggesting it."
           
