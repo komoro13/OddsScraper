@@ -46,7 +46,7 @@ class Match_DAT:
      def checkOver(self, over_n):
           if self.match_over == "" or over_n == "":
                return -1  
-          percentage = 100*((float(over_n)) - float(self.match_over))/float(self.match_over)
+          percentage = round(100*((float(over_n)) - float(self.match_over))/float(self.match_over), 2)
           if (abs(percentage) > self.THRESHOLD):
                return str(percentage)
           else:
@@ -55,7 +55,7 @@ class Match_DAT:
      def checkUnder(self, under_n):
           if self.match_under == "" or under_n == "":
                return -1
-          percentage = 100*((float(under_n) - float(self.match_under) ))/float(self.match_under)
+          percentage = round(100*((float(under_n) - float(self.match_under) ))/float(self.match_under), 2)
           if (abs(percentage) > self.THRESHOLD):
                return str(percentage)
           else: 
@@ -64,7 +64,7 @@ class Match_DAT:
      def checkX(self, x_n):
           if self.match_x == "" or not x_n == "":
                return -1
-          percentage = 100*((float(x_n) - float(self.match_x) ))/float(self.match_x)
+          percentage = round(100*((float(x_n) - float(self.match_x) ))/float(self.match_x), 2)
           if (abs(percentage) > self.THRESHOLD):
                return str(percentage)
           else: 
@@ -73,7 +73,7 @@ class Match_DAT:
      def check1(self, assos_n):
           if self.match_1 == "" or assos_n == "":
                return -1
-          percentage = 100*((float(assos_n) - float(self.match_1) ))/float(self.match_1)
+          percentage = round(100*((float(assos_n) - float(self.match_1) ))/float(self.match_1), 2)
           if (abs(percentage) > self.THRESHOLD):
                return str(percentage)
           else: 
@@ -82,7 +82,7 @@ class Match_DAT:
      def check2(self, diplo_n):
           if self.match_2 == "" or not diplo_n == "":
                return -1
-          percentage = 100*((float(diplo_n) - float(self.match_2) ))/float(self.match_2)
+          percentage = round(100*((float(diplo_n) - float(self.match_2) ))/float(self.match_2), 2)
           if (abs(percentage) > self.THRESHOLD):
                return str(percentage)
           else: 
@@ -126,16 +126,19 @@ class Match_DAT:
           if c_over != -1 and  not c_over_goals:
                match_message += str(c_over) + "%"
                if c_over > 0:
-                    match_message += " Rise in Over " + self.match_over_goals + " \n "
+                    match_message += " Rise in Over " + self.match_over_goals + " \n"
                else:
                     match_message += " Drop in Over" + self.match_over_goals + " \n"
-          
+               match_message += " \n Previous Over: " + self.match_over + " Current over: " + over + "\n"
+
           if c_under != -1 and not c_under_goals:
                match_message +=  str(c_under) + "%"
                if c_under > 0:
                     match_message += " Rise in Under " + self.match_under_goals +" \n "
                else:
                     match_message += " Drop in Under " + self.match_under_goals + " \n"
+               match_message += " \n Previous Under: " + self.match_under + " Current under: " + under + "\n"
+               
 
           if c_x != -1:
                match_message += str(c_x) + " % "
@@ -143,12 +146,14 @@ class Match_DAT:
                     match_message += " Rise in x\n"
                else:
                     match_message += " Drop in x\n"
+               match_message += " \n Previous X: " + self.match_x + " Current X: " + over + "\n"
           if c_1 != -1:
                match_message += str(c_1) + " % "
                if c_1 > 0:
                     match_message += " Rise in 1\n"
                else:
                     match_message += " Drop in 1\n"
+               match_message += " \n Previous 1: " + self.match_1 + " Current over: " + assos + "\n"
 
           if c_2 != -1:
                match_message += str(c_2) + " % "
@@ -156,6 +161,7 @@ class Match_DAT:
                     match_message += " Rise in 2\n"
                else:
                     match_message += " Drop in 2\n" 
+               match_message += " \n Previous 2: " + self.match_2 + " Current over: " + diplo + "\n"
           
           match_message += ", so it worths suggesting it."
           
@@ -277,9 +283,14 @@ found = False
 
 while(True):
      if len(matches) == 0:
-          addMatchesToList()
-
-     matches_str = download_matches(URL, HEADERS)
+          try:
+               addMatchesToList()
+          except:
+               continue
+     try:
+          matches_str = download_matches(URL, HEADERS)
+     except:
+          continue
      downloads = downloads + 1
 
      for match_str in matches_str:
