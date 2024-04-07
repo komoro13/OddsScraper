@@ -11,9 +11,9 @@ HEADERS = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/5
 URL = "https://en.stoiximan.gr/sport/soccer/next-3-hours/"
 MATCH_DIV_CLASS = "vue-recycle-scroller__item-wrapper"
 COOKIES_ACCEPT_BTN = "onetrust-accept-btn-handler"
-TOKEN = "6589363155:AAHegC4NDTAChKUQLMtXpsNKl8zGeIaGgs0"
+TOKEN = ""
 TELEGRAM_URL = "https://api.telegram.org/bot" 
-CHAT_ID = "-1001751992895"
+CHAT_ID = ""
 TIME_FORMAT = "%H:%M"
 WRITE_TIME = 120
 
@@ -167,57 +167,73 @@ class Match_DAT:
           
           return match_message
 
+def get_creds(filename):
+     file = open(filename, 'r')
+     Lines = file.readlines()
+     chat_id = Lines[0]
+     token = Lines[1]
+     creds = {"chat_id":chat_id, "token":token}
+     return creds
+
 def download_matches(url, headers):
     
-    driver = undetected_chromedriver.Chrome()
-    driver.get(URL)
-    driver.maximize_window()
+     #try:
+          driver = undetected_chromedriver.Chrome() #init driver
+          driver.get(URL) #get request to webpage
+          driver.maximize_window() #maximize window so the height of each div is fixed
 
-    scroll_y = 0
-    scroll_pos = 0
-    matches_divs_array = []
-    x = 0
-    match_str_array = []
+          scroll_y = 0 #Height of the page
+          matches_divs_array = [] #WebElements array of matches divs
+          x = 0
+          match_str_array = [] #Str array of matches divs text
 
-    while(True):
-          try:
-               scroll_y = driver.execute_script("return window.pageYOffset")
-               scroll = random.randint(200, 300 )
-               scroll_pos = scroll_pos + scroll
-               driver.execute_script("window.scrollTo(0, "+ str(scroll_pos) + ")")
-               if (driver.execute_script("return window.pageYOffset") == scroll_y):
+          while(True):          
+                         scroll_y = driver.execute_script("return window.pageYOffset") #getting the height of the page
+                         driver.execute_script("window.scrollBy(0, 300)") #scrolling by 300 px so it does load all the mactches of each scroll
+                         if (driver.execute_script("return window.pageYOffset") == scroll_y): #if current position is equal to page bottom exit loop
+                              break
+                         try:
+                              match_divs = driver.find_element(By.CLASS_NAME, MATCH_DIV_CLASS) #find the div that has the matches, if cannot find exit loop
+                         except:
+                              break
+                         if (match_divs.text == ""): #if text of matches div is empty exit loop
+                              break
+                         matches_divs_array = matches_divs_array + match_divs.find_elements(By.XPATH, "*") #get an array of divs from the main div 
+                         
+                         for match_div in matches_divs_array: #convert the WebElement array to an Str array
+                              match_str_array.append(match_div.text)
+                         
+                         matches_divs_array = [] #empty the WebElement array
+                         x = x + 1
+
+          driver.close() #since finished loading close the driver
+
+          match_str_array = list(filter(None, match_str_array)) #filter matches and remove empty strings
+                         
+
+          #This loop removes matches loaded more than once
+
+          found_one = False #Found first occurence of a match in the array
+
+          for iter in range(0, len(match_str_array) - 1):
+               if iter == len(match_str_array): 
                     break
-               try:
-                   match_divs = driver.find_element(By.CLASS_NAME, MATCH_DIV_CLASS)
-               except:
-                    break
-               if (match_divs.text == ""):
-                    break
-               matches_divs_array = matches_divs_array + match_divs.find_elements(By.XPATH, "*")
-               for match_div in matches_divs_array:
-                    match_str_array.append(match_div.text)
-               matches_divs_array = []
-               x = x + 1
-          except:
-               scroll_pos = scroll_pos - scroll
-               continue
-    driver.close()                   
-    match_str_array = list(filter(None, match_str_array))
-    found_one = False
-    
-    for iter in range(0, len(match_str_array) - 1):
-         if iter == len(match_str_array):
-              break
-         for itr in range(0, len(match_str_array) - 1):
-               if itr >= len(match_str_array) or iter >= len(match_str_array):
-                    break
-               if match_str_array[iter] == match_str_array[itr]:
-                    if found_one == True:
-                        match_str_array.remove(match_str_array[itr])
-                        continue
-                    found_one = True
-         found_one = False 
-    return match_str_array
+               for itr in range(0, len(match_str_array) - 1):
+                    if itr >= len(match_str_array) or iter >= len(match_str_array):
+                         break
+                    if match_str_array[iter] == match_str_array[itr]:
+                         if found_one == True:
+                              match_str_array.remove(match_str_array[itr])
+                              continue
+                         found_one = True
+               found_one = False 
+                         
+          return match_str_array
+     
+     #except:
+      #    driver.close()
+       #   return ""
+                    
 
 def addMatchToMatches(match_str):
      match_data = match_str.split("\n")
@@ -274,6 +290,11 @@ def displayData():
      print("Downloads: " + str(downloads))
      print("Matches: ")
   
+creds = get_creds("creds.txt")
+
+CHAT_ID = creds["chat_id"]
+TOKEN = creds["token"]
+
 matches = []
 downloads = 0
 
@@ -283,14 +304,8 @@ found = False
 
 while(True):
      if len(matches) == 0:
-          try:
-               addMatchesToList()
-          except:
-               continue
-     try:
-          matches_str = download_matches(URL, HEADERS)
-     except:
-          continue
+          addMatchesToList()
+     matches_str = download_matches(URL, HEADERS)
      downloads = downloads + 1
 
      for match_str in matches_str:
