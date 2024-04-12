@@ -257,7 +257,7 @@ def addMatchToMatches(match_str):
      over_goals = ""
      under_goals = ""
      try:
-          datetime.strptime(TIME_FORMAT, match_data[1])
+          datetime.strptime(match_data[1], TIME_FORMAT)
      except:
           return ""
      try:     
