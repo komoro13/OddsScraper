@@ -133,6 +133,7 @@ class Match_DAT:
                match_message += str(c_over) + " % "
                if c_over > 0:
                     match_message += " Rise in Over " + self.match_over_goals + " \n"
+                    self.excel_data.append({"sheet":"Rise in Over"})
                else:
                     match_message += " Drop in Over" + self.match_over_goals + " \n"
                match_message += " \n Previous Over: " + self.match_over + " Current over: " + over + "\n"
