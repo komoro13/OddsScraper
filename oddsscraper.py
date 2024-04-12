@@ -32,6 +32,7 @@ class Match_DAT:
      match_2 = ""
      match_over_goals = ""
      match_under_goals = ""
+     excel_data = []
      THRESHOLD = 10
      def __init__(self, name, time, over, under, x, assos, diplo, over_goals, under_goals):
           self.match_name = name
@@ -171,6 +172,7 @@ class Match_DAT:
           match_message += ", so it worths suggesting it."
           
           return match_message
+     
 
 def get_creds(filename):
      file = open(filename, 'r')
@@ -293,6 +295,7 @@ def appendMatchToExcel(match_dict):
      filename = FILENAME
      sheet = match_dict["sheet"]
      data = match_dict["data"]
+
 
 def addMatchesToList():
      while(len(matches) == 0):
