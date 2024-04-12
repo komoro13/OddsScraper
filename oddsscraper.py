@@ -292,6 +292,7 @@ def sendMessage(match_str):
 def appendMatchToExcel(match_dict):
      filename = FILENAME
      sheet = match_dict["sheet"]
+     data = match_dict["data"]
 
 def addMatchesToList():
      while(len(matches) == 0):
