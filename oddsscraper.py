@@ -32,7 +32,7 @@ class Match_DAT:
      match_2 = ""
      match_over_goals = ""
      match_under_goals = ""
-     excel_data = []
+     #excel_data = []
      THRESHOLD = 10
      def __init__(self, name, time, over, under, x, assos, diplo, over_goals, under_goals):
           self.match_name = name
@@ -260,7 +260,7 @@ def addMatchToMatches(match_str):
      over_goals = ""
      under_goals = ""
      try:
-          datetime.strptime(TIME_FORMAT, match_data[1])
+          datetime.strptime(match_data[1], TIME_FORMAT)
      except:
           return ""
      try:     
