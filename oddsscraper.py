@@ -32,7 +32,7 @@ class Match_DAT:
      match_2 = ""
      match_over_goals = ""
      match_under_goals = ""
-     excel_data = []
+     #excel_data = []
      THRESHOLD = 10
      def __init__(self, name, time, over, under, x, assos, diplo, over_goals, under_goals):
           self.match_name = name
@@ -133,7 +133,7 @@ class Match_DAT:
                match_message += str(c_over) + " % "
                if c_over > 0:
                     match_message += " Rise in Over " + self.match_over_goals + " \n"
-                    self.excel_data.append({"sheet":"Rise in Over"})
+                    #self.excel_data.append({"sheet":"Rise in Over"})
                else:
                     match_message += " Drop in Over" + self.match_over_goals + " \n"
                match_message += " \n Previous Over: " + self.match_over + " Current over: " + over + "\n"
