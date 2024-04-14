@@ -32,7 +32,6 @@ class Match_DAT:
      match_2 = ""
      match_over_goals = ""
      match_under_goals = ""
-     #excel_data = []
      THRESHOLD = 10
      def __init__(self, name, time, over, under, x, assos, diplo, over_goals, under_goals):
           self.match_name = name
@@ -133,10 +132,6 @@ class Match_DAT:
                match_message += str(c_over) + " % "
                if c_over > 0:
                     match_message += " Rise in Over " + self.match_over_goals + " \n"
-                    try:
-                         self.excel_data.append({"sheet":"Rise in Over"})
-                    except Exception as e:
-                         sendMessage(str(e))
                else:
                     match_message += " Drop in Over" + self.match_over_goals + " \n"
                match_message += " \n Previous Over: " + self.match_over + " Current over: " + over + "\n"
@@ -294,12 +289,6 @@ def addMatchToMatches(match_str):
 
 def sendMessage(match_str):
      print(requests.get(TELEGRAM_URL + TOKEN + "/sendMessage?chat_id=" + CHAT_ID + "&text=" + match_str).json())
-
-def appendMatchToExcel(match_dict):
-     filename = FILENAME
-     sheet = match_dict["sheet"]
-     data = match_dict["data"]
-
 
 def addMatchesToList():
      while(len(matches) == 0):
