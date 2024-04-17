@@ -238,10 +238,7 @@ def download_matches(url, headers):
           return match_str_array
      
      except:
-          try:
-               driver.close()
-          except:
-               return ""
+          driver.close()
           return ""
                     
 
