@@ -6,6 +6,7 @@ import random
 import time
 import os
 import undetected_chromedriver
+import pandas
 
 HEADERS = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'}
 URL = "https://en.stoiximan.gr/sport/soccer/next-3-hours/"
@@ -15,6 +16,8 @@ COOKIES_ACCEPT_BTN = "onetrust-accept-btn-handler"
 TOKEN = ""
 TELEGRAM_URL = "https://api.telegram.org/bot" 
 CHAT_ID = ""
+
+FILENAME = ""
 
 TIME_FORMAT = "%H:%M"
 WRITE_TIME = 120
@@ -174,7 +177,8 @@ def get_creds(filename):
      Lines = file.readlines()
      chat_id = Lines[0]
      token = Lines[1]
-     creds = {"chat_id":chat_id, "token":token}
+     filename = Lines[2]
+     creds = {"chat_id":chat_id, "token":token, "filename":filename}
      return creds
 
 def download_matches(url, headers):
@@ -264,6 +268,8 @@ def addMatchToMatches(match_str):
                if attr.split(" ")[0] == "O":
                     over = match_data[match_data.index(attr) + 1]
                     over_goals = attr.split(" ")[1]
+                    if over_goals == "":
+                         exit(-1)
                if attr.split(" ")[0] == "U":
                     under = match_data[match_data.index(attr) + 1]
                     under_goals = attr.split(" ")[1]
@@ -278,6 +284,14 @@ def addMatchToMatches(match_str):
 
 def sendMessage(match_str):
      print(requests.get(TELEGRAM_URL + TOKEN + "/sendMessage?chat_id=" + CHAT_ID + "&text=" + match_str).json())
+
+def appendMatchToExcel(match_dict):
+     filename = FILENAME
+     sheet = match_dict["sheet"]
+     data_dict = match_dict["data_dict"]
+     
+
+     
 
 def addMatchesToList():
      while(len(matches) == 0):
@@ -299,6 +313,7 @@ creds = get_creds("creds.txt")
 
 CHAT_ID = creds["chat_id"]
 TOKEN = creds["token"]
+FILENAME = creds["filename"]
 
 matches = []
 downloads = 0
