@@ -118,10 +118,7 @@ class Match_DAT:
           c_over_goals = self.checkOverGoals(over_goals)
           c_under_goals = self.checkUnderGoals(under_goals)
 
-          print("Checking match message")
-
           if c_over == -1 and c_under == -1 and c_x == -1 and c_1 == -1 and c_2 == -1 and not c_over_goals and not c_under_goals:
-               print("All odds are less than treshold")
                return ""
           
           match_message = "Match " + self.match_name + " has\n "
