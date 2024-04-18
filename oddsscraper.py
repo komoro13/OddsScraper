@@ -12,12 +12,9 @@ HEADERS = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/5
 URL = "https://en.stoiximan.gr/sport/soccer/next-3-hours/"
 MATCH_DIV_CLASS = "vue-recycle-scroller__item-wrapper"
 COOKIES_ACCEPT_BTN = "onetrust-accept-btn-handler"
-
 TOKEN = ""
 TELEGRAM_URL = "https://api.telegram.org/bot" 
 CHAT_ID = ""
-
-FILENAME = ""
 
 TIME_FORMAT = "%H:%M"
 WRITE_TIME = 120
@@ -183,7 +180,7 @@ def get_creds(filename):
 
 def download_matches(url, headers):
     
-     try:
+     #try:
           driver = undetected_chromedriver.Chrome() #init driver
           driver.get(URL) #get request to webpage
           driver.maximize_window() #maximize window so the height of each div is fixed
@@ -236,9 +233,9 @@ def download_matches(url, headers):
                          
           return match_str_array
      
-     except:
-          driver.close()
-          return ""
+     #except:
+      #    driver.close()
+       #   return ""
                     
 
 def addMatchToMatches(match_str):
