@@ -22,6 +22,7 @@ WRITE_TIME = 120
 class Match_DAT:
      match_name  = ""
      match_time = ""
+     
      match_over = ""
      match_under = ""
      match_x = ""
@@ -29,6 +30,31 @@ class Match_DAT:
      match_2 = ""
      match_over_goals = ""
      match_under_goals = ""
+
+     match_over_first = ""
+     match_under_first = ""
+     match_x_first = ""
+     match_1_first = ""
+     match_2_first = ""
+     match_over_goals_first = ""
+     match_under_goals_first = ""
+
+     match_over_max = ""
+     match_under_max = ""
+     match_1_max = ""
+     match_x_max = ""
+     match_2_max = ""
+     match_over_goals_max = ""
+     match_under_goals_max = ""
+
+     match_over_last = ""
+     match_under_last = ""
+     match_x_last = ""
+     match_1_last = ""
+     match_2_last = ""
+     match_over_goals_last = ""
+     match_under_goals_last = ""
+     
      THRESHOLD = 10
      def __init__(self, name, time, over, under, x, assos, diplo, over_goals, under_goals):
           self.match_name = name
@@ -102,8 +128,11 @@ class Match_DAT:
                return False
           if self.match_under_goals != under_goals_n:
                return True
-          return False
-          
+          return False     
+
+  
+     
+
      def getMatchMessage(self, over, under, x, assos, diplo, over_goals, under_goals):
           c_over = float(self.checkOver(over))
           c_under = float(self.checkUnder(under))
