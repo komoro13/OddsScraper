@@ -64,6 +64,8 @@ class Match_DAT:
           self.match_x = x
           self.match_1 = assos
           self.match_2 = diplo
+          self.match_over_goals = over_goals
+          self.match_under_goals = under_goals
      def printMatchString(self):
           print (self.match_name + " Time: " + self.match_time + " Over: " + self.over + " Under: " + self.under)
      def getTimeDifference(self):
