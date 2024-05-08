@@ -18,7 +18,7 @@ CHAT_ID = ""
 
 TIME_FORMAT = "%H:%M"
 WRITE_TIME = 120
-
+CHECK_TIME = 15
 class Match_DAT:
      match_name  = ""
      match_time = ""
@@ -30,32 +30,8 @@ class Match_DAT:
      match_2 = ""
      match_over_goals = ""
      match_under_goals = ""
-
-     match_over_first = ""
-     match_under_first = ""
-     match_x_first = ""
-     match_1_first = ""
-     match_2_first = ""
-     match_over_goals_first = ""
-     match_under_goals_first = ""
-
-     match_over_max = ""
-     match_under_max = ""
-     match_1_max = ""
-     match_x_max = ""
-     match_2_max = ""
-     match_over_goals_max = ""
-     match_under_goals_max = ""
-
-     match_over_last = ""
-     match_under_last = ""
-     match_x_last = ""
-     match_1_last = ""
-     match_2_last = ""
-     match_over_goals_last = ""
-     match_under_goals_last = ""
-     
      THRESHOLD = 10
+     
      def __init__(self, name, time, over, under, x, assos, diplo, over_goals, under_goals):
           self.match_name = name
           self.match_time = time
@@ -66,13 +42,19 @@ class Match_DAT:
           self.match_2 = diplo
           self.match_over_goals = over_goals
           self.match_under_goals = under_goals
+     
      def printMatchString(self):
           print (self.match_name + " Time: " + self.match_time + " Over: " + self.over + " Under: " + self.under)
+     
      def getTimeDifference(self):
           d1 = datetime.strptime(self.match_time, TIME_FORMAT)
           d2 = datetime.strptime(time.strftime(TIME_FORMAT, time.localtime()), TIME_FORMAT)
           return (d1-d2).total_seconds()/60
      
+     def goalsConvert(odd, line1, line2):
+          if line1 == "2.5":
+               odd = odd 
+
      def checkOver(self, over_n):
           if self.match_over == "" or over_n == "":
                return -1  
@@ -130,10 +112,7 @@ class Match_DAT:
                return False
           if self.match_under_goals != under_goals_n:
                return True
-          return False     
-
-  
-     
+          return False          
 
      def getMatchMessage(self, over, under, x, assos, diplo, over_goals, under_goals):
           c_over = float(self.checkOver(over))
@@ -339,24 +318,34 @@ print("Wait till a match is added")
 found = False
 
 while(True):
-     if len(matches) == 0:
-          addMatchesToList()
-     matches_str = download_matches(URL, HEADERS)
-     downloads = downloads + 1
+     try:
+          if len(matches) == 0:
+               addMatchesToList()
+          matches_str = download_matches(URL, HEADERS)
+          downloads = downloads + 1
 
-     for match_str in matches_str:
-          found = False
-          if len(match_str.split("\n")) > 5 and "/" in match_str and ":" in match_str:
-               match_s = addMatchToMatches(match_str)
-          for match in matches:
-               if match.getTimeDifference() < 0:
-                    matches.remove(match)
-               if match_s.match_name == match.match_name:
-                     found = True
-                     match_message = match.getMatchMessage(match_s.match_over, match_s.match_under, match_s.match_x, match_s.match_1, match_s.match_2, match_s.match_over_goals, match_s.match_under_goals)
-                     if match_message != "":
-                         sendMessage(match_message)
-                         matches.remove(match)
-          if found == False and WRITE_TIME - 20 < match.getTimeDifference() < WRITE_TIME + 20:
-                         matches.append(match_s)
-     displayData()     
+          for match_str in matches_str:
+               found = False
+               if len(match_str.split("\n")) > 5 and "/" in match_str and ":" in match_str:
+                    match_s = addMatchToMatches(match_str)
+               for match in matches:
+                    if match.getTimeDifference() < 0:
+                         try:
+                              matches.remove(match)
+                         except:
+                              continue
+                    if match_s.match_name == match.match_name:
+                         found = True
+                         match_message = match.getMatchMessage(match_s.match_over, match_s.match_under, match_s.match_x, match_s.match_1, match_s.match_2, match_s.match_over_goals, match_s.match_under_goals)
+                         if match_message != "":
+                              sendMessage(match_message)
+                              try:
+                                   matches.remove(match)
+                              except:
+                                   continue
+               if found == False and WRITE_TIME - 20 < match.getTimeDifference() < WRITE_TIME + 20:
+                              matches.append(match_s)
+          displayData()
+     except:
+          matches = []
+          continue     
