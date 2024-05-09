@@ -128,12 +128,12 @@ class Match_DAT:
           if c_over == -1 and c_under == -1 and c_x == -1 and c_1 == -1 and c_2 == -1 and not c_over_goals and not c_under_goals:
                return ""
           
-          match_message = "Match " + self.match_name + " has\n "
+          match_message =  self.match_name + "\n"
 
           if (c_over_goals == True):
-               match_message += "a change in over as previous over was over " + self.match_over_goals + "and now it is over " + over_goals 
+               match_message += "Change in over line \nprevious over line: " + self.match_over_goals + " Current over line: " + over_goals + " \ncurrent over: " + over + " previous over: " + self.match_over + "\n"
           if (c_under_goals == True ):
-               match_message += " and a change in under as previous under was under " + self.match_under_goals + "and now it is under " + under_goals
+               match_message += "Change in under line \nprevious under line: " + self.match_under_goals + " Current under line: " + under_goals + "\ncurrent under:  " + under + " previous under: " + self.match_under + "\n"
           
           if c_over != -1 and  not c_over_goals:
                match_message += str(c_over) + " % "
@@ -175,7 +175,6 @@ class Match_DAT:
                     match_message += " Drop in 2\n" 
                match_message += " \n Previous 2: " + self.match_2 + " Current 2: " + diplo + "\n"
           
-          match_message += ", so it worths suggesting it."
           
           return match_message
 
