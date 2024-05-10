@@ -61,11 +61,11 @@ class Match_DAT:
           if line == "2.5":
                return odd
           if line == "1.5":
+               return str(float(odd) * 1.5)
+          if line == "3.5":
                return str(float(odd) * 0.5)
-          if line == "2.5":
-               return str(float(odd) * 0.5)
-          if line == "2.5":
-               return str(float(odd) * 0.2)
+     
+          
           
      def checkOver(self, over_n):
           if self.match_over == "" or over_n == "":
@@ -143,9 +143,10 @@ class Match_DAT:
           match_message =  self.match_name + "\n"
 
           if (c_over_goals == True):
-               match_message += "Change in over line \nprevious over line: " + self.match_over_goals + " Current over line: " + over_goals + " \ncurrent over: " + over + " previous over: " + self.match_over + "\n"
-          if (c_under_goals == True ):
-               match_message += "Change in under line \nprevious under line: " + self.match_under_goals + " Current under line: " + under_goals + "\ncurrent under:  " + under + " previous under: " + self.match_under + "\n"
+               match_message += "Change in over line \nprevious over line: " + self.match_over_goals + " Current over line: " + over_goals + " \ncurrent over: " + over + " previous over: " + self.match_over + "\nPercentage of change in over 2.5: " + c_over + " %" + "\n" 
+          
+          #if (c_under_goals == True ):
+           #    match_message += "Change in under line \nprevious under line: " + self.match_under_goals + " Current under line: " + under_goals + "\ncurrent under:  " + under + " previous under: " + self.match_under + "\n"
           
           if c_over != -1 and  not c_over_goals:
                match_message += str(c_over) + " % "
@@ -155,13 +156,14 @@ class Match_DAT:
                     match_message += " Drop in Over" + self.match_over_goals + " \n"
                match_message += " \n Previous Over: " + self.match_over + " Current over: " + over + "\n"
 
-          if c_under != -1 and not c_under_goals:
-               match_message +=  str(c_under) + " % "
-               if c_under > 0:
-                    match_message += " Rise in Under " + self.match_under_goals +" \n "
-               else:
-                    match_message += " Drop in Under " + self.match_under_goals + " \n"
-               match_message += " \n Previous Under: " + self.match_under + " Current under: " + under + "\n"
+          
+          #if c_under != -1 and not c_under_goals:
+           #    match_message +=  str(c_under) + " % "
+            #   if c_under > 0:
+             #       match_message += " Rise in Under " + self.match_under_goals +" \n "
+             #  else:
+              #      match_message += " Drop in Under " + self.match_under_goals + " \n"
+               #match_message += " \n Previous Under: " + self.match_under + " Current under: " + under + "\n"
                
 
           if c_x != -1:
