@@ -35,8 +35,14 @@ class Match_DAT:
      def __init__(self, name, time, over, under, x, assos, diplo, over_goals, under_goals):
           self.match_name = name
           self.match_time = time
-          self.match_over = over
-          self.match_under = under
+          try:
+               self.match_over = self.goalsConvert(over, over_goals)
+          except:
+               self.match_over = over
+          try:
+               self.match_under = self.goalsConvert(under, under_goals)
+          except:
+               self.match_under = under
           self.match_x = x
           self.match_1 = assos
           self.match_2 = diplo
@@ -51,10 +57,16 @@ class Match_DAT:
           d2 = datetime.strptime(time.strftime(TIME_FORMAT, time.localtime()), TIME_FORMAT)
           return (d1-d2).total_seconds()/60
      
-     def goalsConvert(odd, line1, line2):
-          if line1 == "2.5":
-               odd = odd 
-
+     def goalsConvert(odd, line):
+          if line == "2.5":
+               return odd
+          if line == "1.5":
+               return str(float(odd) * 0.5)
+          if line == "2.5":
+               return str(float(odd) * 0.5)
+          if line == "2.5":
+               return str(float(odd) * 0.2)
+          
      def checkOver(self, over_n):
           if self.match_over == "" or over_n == "":
                return -1  
@@ -113,7 +125,7 @@ class Match_DAT:
           if self.match_under_goals != under_goals_n:
                return True
           return False          
-
+          
      def getMatchMessage(self, over, under, x, assos, diplo, over_goals, under_goals):
           c_over = float(self.checkOver(over))
           c_under = float(self.checkUnder(under))
@@ -336,7 +348,7 @@ while(True):
                     if match_s.match_name == match.match_name:
                          found = True
                          match_message = match.getMatchMessage(match_s.match_over, match_s.match_under, match_s.match_x, match_s.match_1, match_s.match_2, match_s.match_over_goals, match_s.match_under_goals)
-                         if match_message != "":
+                         if match_message != "" and match_s.getTimeDifference() <= CHECK_TIME:
                               sendMessage(match_message)
                               try:
                                    matches.remove(match)
