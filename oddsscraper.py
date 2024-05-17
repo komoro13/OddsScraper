@@ -305,6 +305,12 @@ def addMatchToMatches(match_str):
 def sendMessage(match_str):
      print(requests.get(TELEGRAM_URL + TOKEN + "/sendMessage?chat_id=" + CHAT_ID + "&text=" + match_str).json())
 
+def appendMatchToExcel(match_dict):
+     filename = FILENAME
+     sheet = match_dict["sheet"]
+     data = match_dict["data"]
+
+
 def addMatchesToList():
      while(len(matches) == 0):
           for match_str in download_matches(URL, HEADERS):
