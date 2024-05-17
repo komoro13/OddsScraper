@@ -310,7 +310,6 @@ matches = []
 downloads = 0
 
 print("Wait till a match is added")
-     
 found = False
 
 while(True):
