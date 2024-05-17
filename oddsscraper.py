@@ -256,7 +256,10 @@ def download_matches(url, headers):
           return match_str_array
      
      except:
-          driver.close()
+          try:
+               driver.close()
+          except:
+               return ""
           return ""
                     
 
