@@ -6,6 +6,7 @@ import random
 import time
 import os
 import undetected_chromedriver
+from webdriver_manager 
 
 HEADERS = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'}
 URL = "https://en.stoiximan.gr/sport/soccer/next-3-hours/"
@@ -35,14 +36,8 @@ class Match_DAT:
      def __init__(self, name, time, over, under, x, assos, diplo, over_goals, under_goals):
           self.match_name = name
           self.match_time = time
-          try:
-               self.match_over = self.goalsConvert(over, over_goals)
-          except:
-               self.match_over = over
-          try:
-               self.match_under = self.goalsConvert(under, under_goals)
-          except:
-               self.match_under = under
+          self.match_over = over
+          self.match_under = under
           self.match_x = x
           self.match_1 = assos
           self.match_2 = diplo
@@ -56,17 +51,7 @@ class Match_DAT:
           d1 = datetime.strptime(self.match_time, TIME_FORMAT)
           d2 = datetime.strptime(time.strftime(TIME_FORMAT, time.localtime()), TIME_FORMAT)
           return (d1-d2).total_seconds()/60
-     
-     def goalsConvert(odd, line):
-          if line == "2.5":
-               return odd
-          if line == "1.5":
-               return str(float(odd) * 1.5)
-          if line == "3.5":
-               return str(float(odd) * 0.5)
-     
-          
-          
+                    
      def checkOver(self, over_n):
           if self.match_over == "" or over_n == "":
                return -1  
@@ -145,8 +130,8 @@ class Match_DAT:
           
           match_message =  self.match_name + "\n"
 
-          if (c_over_goals == True):
-               match_message += "Change in over line \nprevious over line: " + self.match_over_goals + " Current over line: " + over_goals + " \ncurrent over: " + over + " previous over: " + self.match_over + "\nPercentage of change in over 2.5: " + c_over + " %" + "\n" 
+          #if (c_over_goals == True):
+           #    match_message += "Change in over line \nprevious over line: " + self.match_over_goals + " Current over line: " + over_goals + " \ncurrent over: " + over + " previous over: " + self.match_over + "\nPercentage of change in over 2.5: " + c_over + " %" + "\n" 
           
           #if (c_under_goals == True ):
            #    match_message += "Change in under line \nprevious under line: " + self.match_under_goals + " Current under line: " + under_goals + "\ncurrent under:  " + under + " previous under: " + self.match_under + "\n"
@@ -160,13 +145,13 @@ class Match_DAT:
                match_message += " \n Previous Over: " + self.match_over + " Current over: " + over + "\n"
 
           
-          #if c_under != -1 and not c_under_goals:
-           #    match_message +=  str(c_under) + " % "
-            #   if c_under > 0:
-             #       match_message += " Rise in Under " + self.match_under_goals +" \n "
-             #  else:
-              #      match_message += " Drop in Under " + self.match_under_goals + " \n"
-               #match_message += " \n Previous Under: " + self.match_under + " Current under: " + under + "\n"
+          if c_under != -1 and not c_under_goals:
+               match_message +=  str(c_under) + " % "
+               if c_under > 0:
+                    match_message += " Rise in Under " + self.match_under_goals +" \n "
+               else:
+                    match_message += " Drop in Under " + self.match_under_goals + " \n"
+               match_message += " \n Previous Under: " + self.match_under + " Current under: " + under + "\n"
                
 
           if c_x != -1:
@@ -205,7 +190,7 @@ def get_creds(filename):
 
 def download_matches(url, headers):
     
-     try:
+     
           driver = undetected_chromedriver.Chrome() #init driver
           driver.get(URL) #get request to webpage
           driver.maximize_window() #maximize window so the height of each div is fixed
@@ -258,12 +243,7 @@ def download_matches(url, headers):
                          
           return match_str_array
      
-     except:
-          try:
-               driver.close()
-          except:
-               return ""
-          return ""
+ 
                     
 
 def addMatchToMatches(match_str):
@@ -305,12 +285,6 @@ def addMatchToMatches(match_str):
 def sendMessage(match_str):
      print(requests.get(TELEGRAM_URL + TOKEN + "/sendMessage?chat_id=" + CHAT_ID + "&text=" + match_str).json())
 
-def appendMatchToExcel(match_dict):
-     filename = FILENAME
-     sheet = match_dict["sheet"]
-     data = match_dict["data"]
-
-
 def addMatchesToList():
      while(len(matches) == 0):
           for match_str in download_matches(URL, HEADERS):
@@ -340,7 +314,7 @@ print("Wait till a match is added")
 found = False
 
 while(True):
-     try:
+     
           if len(matches) == 0:
                addMatchesToList()
           matches_str = download_matches(URL, HEADERS)
@@ -368,6 +342,4 @@ while(True):
                if found == False and WRITE_TIME - 20 < match.getTimeDifference() < WRITE_TIME + 20:
                               matches.append(match_s)
           displayData()
-     except:
-          matches = []
-          continue     
+        
