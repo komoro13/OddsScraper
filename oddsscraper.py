@@ -6,7 +6,7 @@ import random
 import time
 import os
 import undetected_chromedriver
-from webdriver_manager 
+from webdriver_manager.chrome import ChromeDriverManager
 
 HEADERS = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36'}
 URL = "https://en.stoiximan.gr/sport/soccer/next-3-hours/"
@@ -191,7 +191,7 @@ def get_creds(filename):
 def download_matches(url, headers):
     
      
-          driver = undetected_chromedriver.Chrome() #init driver
+          driver = undetected_chromedriver.Chrome(ChromeDriverManager.install()) #init driver
           driver.get(URL) #get request to webpage
           driver.maximize_window() #maximize window so the height of each div is fixed
 
