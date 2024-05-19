@@ -34,9 +34,15 @@ class Match_DAT:
      
      def __init__(self, name, time, over, under, x, assos, diplo, over_goals, under_goals):
           self.match_name = name
-          self.match_time = time     
-          self.match_over = over
-          self.match_under = under
+          self.match_time = time
+          try:
+               self.match_over = self.goalsConvert(over, over_goals)
+          except:
+               self.match_over = over
+          try:
+               self.match_under = self.goalsConvert(under, under_goals)
+          except:
+               self.match_under = under
           self.match_x = x
           self.match_1 = assos
           self.match_2 = diplo
@@ -50,6 +56,14 @@ class Match_DAT:
           d1 = datetime.strptime(self.match_time, TIME_FORMAT)
           d2 = datetime.strptime(time.strftime(TIME_FORMAT, time.localtime()), TIME_FORMAT)
           return (d1-d2).total_seconds()/60
+     
+     def goalsConvert(odd, line):
+          if line == "2.5":
+               return odd
+          if line == "1.5":
+               return str(float(odd) * 1.5)
+          if line == "3.5":
+               return str(float(odd) * 0.5)
      
           
           
@@ -123,18 +137,16 @@ class Match_DAT:
           c_over_goals = self.checkOverGoals(over_goals)
           c_under_goals = self.checkUnderGoals(under_goals)
 
-          print("Checking match message")
-
           if c_over == -1 and c_under == -1 and c_x == -1 and c_1 == -1 and c_2 == -1 and not c_over_goals and not c_under_goals:
                return ""
           
           match_message =  self.match_name + "\n"
 
-          #if (c_over_goals == True):
-            #   match_message += "Change in over line \nprevious over line: " + self.match_over_goals + " Current over line: " + over_goals + " \ncurrent over: " + over + " previous over: " + self.match_over + "\nPercentage of change in over 2.5: " + c_over + " %" + "\n" 
+          if (c_over_goals == True):
+               match_message += "Change in over line \nprevious over line: " + self.match_over_goals + " Current over line: " + over_goals + " \ncurrent over: " + over + " previous over: " + self.match_over + "\nPercentage of change in over 2.5: " + c_over + " %" + "\n" 
           
           #if (c_under_goals == True ):
-             #  match_message += "Change in under line \nprevious under line: " + self.match_under_goals + " Current under line: " + under_goals + "\ncurrent under:  " + under + " previous under: " + self.match_under + "\n"
+           #    match_message += "Change in under line \nprevious under line: " + self.match_under_goals + " Current under line: " + under_goals + "\ncurrent under:  " + under + " previous under: " + self.match_under + "\n"
           
           if c_over != -1 and  not c_over_goals:
                match_message += str(c_over) + " % "
@@ -145,13 +157,13 @@ class Match_DAT:
                match_message += " \n Previous Over: " + self.match_over + " Current over: " + over + "\n"
 
           
-          if c_under != -1 and not c_under_goals:
-               match_message +=  str(c_under) + " % "
-               if c_under > 0:
-                    match_message += " Rise in Under " + self.match_under_goals +" \n "
-               else:
-                    match_message += " Drop in Under " + self.match_under_goals + " \n"
-               match_message += " \n Previous Under: " + self.match_under + " Current under: " + under + "\n"
+          #if c_under != -1 and not c_under_goals:
+           #    match_message +=  str(c_under) + " % "
+            #   if c_under > 0:
+             #       match_message += " Rise in Under " + self.match_under_goals +" \n "
+             #  else:
+              #      match_message += " Drop in Under " + self.match_under_goals + " \n"
+               #match_message += " \n Previous Under: " + self.match_under + " Current under: " + under + "\n"
                
 
           if c_x != -1:
@@ -290,11 +302,6 @@ def addMatchToMatches(match_str):
 def sendMessage(match_str):
      print(requests.get(TELEGRAM_URL + TOKEN + "/sendMessage?chat_id=" + CHAT_ID + "&text=" + match_str).json())
 
-def appendMatchToExcel(match_dict):
-     sheet = match_dict["sheet"]
-     data = match_dict["data"]
-
-
 def addMatchesToList():
      while(len(matches) == 0):
           for match_str in download_matches(URL, HEADERS):
@@ -354,4 +361,4 @@ while(True):
           displayData()
      except:
           matches = []
-          continue   
+          continue     
