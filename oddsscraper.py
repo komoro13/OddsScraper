@@ -143,7 +143,7 @@ class Match_DAT:
           match_message =  self.match_name + "\n"
 
           if (c_over_goals == True):
-               match_message += "Change in over line \nprevious over line: " + self.match_over_goals + " Current over line: " + over_goals + " \ncurrent over: " + over + " previous over: " + self.match_over + "\nPercentage of change in over 2.5: " + c_over + " %" + "\n" 
+               match_message += "Change in over line \nprevious over line: " + self.match_over_goals + " Current over line: " + over_goals + " \ncurrent over: " + over + " previous over: " + self.match_over + "\nPercentage of change in over 2.5: " + str(c_over) + " %" + "\n" 
           
           #if (c_under_goals == True ):
            #    match_message += "Change in under line \nprevious under line: " + self.match_under_goals + " Current under line: " + under_goals + "\ncurrent under:  " + under + " previous under: " + self.match_under + "\n"
@@ -331,7 +331,7 @@ print("Wait till a match is added")
 found = False
 
 while(True):
-     try:
+
           if len(matches) == 0:
                addMatchesToList()
           matches_str = download_matches(URL, HEADERS)
@@ -359,6 +359,4 @@ while(True):
                if found == False and WRITE_TIME - 20 < match.getTimeDifference() < WRITE_TIME + 20:
                               matches.append(match_s)
           displayData()
-     except:
-          matches = []
-          continue     
+  
