@@ -359,4 +359,4 @@ while(True):
                               matches.append(match_s)
           displayData()
      except Exception as ex:
-          sendMessage("DEBUG: " + str(ex))
+          sendMessage("DEBUG \n " + str(ex))
