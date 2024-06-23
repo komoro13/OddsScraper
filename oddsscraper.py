@@ -35,14 +35,10 @@ class Match_DAT:
      def __init__(self, name, time, over, under, x, assos, diplo, over_goals, under_goals):
           self.match_name = name
           self.match_time = time
-          try:
-               self.match_over = self.goalsConvert(over, over_goals)
-          except:
-               self.match_over = over
-          try:
-               self.match_under = self.goalsConvert(under, under_goals)
-          except:
-               self.match_under = under
+          self.match_over = self.goalsConvert(over, over_goals)
+          self.match_over = over
+          self.match_under = self.goalsConvert(under, under_goals)
+          self.match_under = under
           self.match_x = x
           self.match_1 = assos
           self.match_2 = diplo
@@ -64,6 +60,9 @@ class Match_DAT:
                return str(float(odd) * 1.5)
           if line == "3.5":
                return str(float(odd) * 0.5)
+          if line == "4.5":
+               return str(float(odd)* 0.35)
+     
      
           
           
@@ -331,7 +330,7 @@ print("Wait till a match is added")
 found = False
 
 while(True):
-
+     try:
           if len(matches) == 0:
                addMatchesToList()
           matches_str = download_matches(URL, HEADERS)
@@ -359,4 +358,5 @@ while(True):
                if found == False and WRITE_TIME - 20 < match.getTimeDifference() < WRITE_TIME + 20:
                               matches.append(match_s)
           displayData()
-  
+     except Exception as ex:
+          sendMessage("DEBUG: " + str(ex))
