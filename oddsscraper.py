@@ -360,3 +360,5 @@ while(True):
           displayData()
      except Exception as ex:
           sendMessage("DEBUG \n " + str(ex))
+          matches = []
+          continue
