@@ -53,15 +53,15 @@ class Match_DAT:
           d2 = datetime.strptime(time.strftime(TIME_FORMAT, time.localtime()), TIME_FORMAT)
           return (d1-d2).total_seconds()/60
      
-     def goalsConvert(odd, line):
+     def goalsConvert(self, odd, line):
           if line == "2.5":
                return odd
           if line == "1.5":
                return str(float(odd) * 1.5)
           if line == "3.5":
-               return str(float(odd) * 0.5)
+               return str(float(odd) * 0.75)
           if line == "4.5":
-               return str(float(odd)* 0.35)
+               return str(float(odd)* 0.5)
      
      
           
