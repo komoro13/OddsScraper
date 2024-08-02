@@ -264,6 +264,11 @@ def download_matches(url, headers):
 
 def addMatchToMatches(match_str):
      match_data = match_str.split("\n")
+     time = match_data[1]
+     try:
+          datetime.strptime(time, TIME_FORMAT)
+     except:
+          return ""
      over = ""
      under = ""
      x = ""
@@ -305,6 +310,8 @@ def addMatchesToList():
      while(len(matches) == 0):
           for match_str in download_matches(URL, HEADERS):
                if len(match_str.split("\n")) > 5 and "/" in match_str and ":" in match_str:
+                    if (addMatchToMatches(match_str) == ""):
+                         continue
                     match = addMatchToMatches(match_str)
                     if WRITE_TIME - 20 < match.getTimeDifference() < WRITE_TIME + 20:
                          matches.append(match)
@@ -339,6 +346,8 @@ while(True):
           for match_str in matches_str:
                found = False
                if len(match_str.split("\n")) > 5 and "/" in match_str and ":" in match_str:
+                    if (addMatchToMatches(match_str) == ""):
+                         continue
                     match_s = addMatchToMatches(match_str)
                for match in matches:
                     if match.getTimeDifference() < 0:
