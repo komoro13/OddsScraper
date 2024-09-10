@@ -1,6 +1,6 @@
 # Betting Odds Scraper with Telegram Alerts
 
-This Python project scrapes live betting odds from the Stoiximan website for soccer matches scheduled within the next three hours. If the odds change by a specified threshold, it sends an alert message to a Telegram channel using a bot.
+This Python project scrapes live betting odds from a betting website for soccer matches scheduled within the next three hours. If the odds change by a specified threshold, it sends an alert message to a Telegram channel using a bot.
 
 ## Features
 Web Scraping: Utilizes undetected_chromedriver and selenium to gather soccer match odds from the Stoiximan website.
