@@ -10,12 +10,12 @@ Dynamic Odds Threshold: Configurable threshold to detect odds percentage changes
 
 ## Prerequisites
 
-Python 3.8+
-Selenium: pip install selenium
-Undetected ChromeDriver: pip install undetected-chromedriver
-Requests: pip install requests
-Telegram Bot: You need to set up a Telegram bot using BotFather and get your API token and chat ID.
-Google Chrome: Make sure you have Google Chrome installed.
+**Python 3.8+**
+**Selenium:** pip install selenium
+**Undetected ChromeDriver:** pip install undetected-chromedriver
+**Requests:** pip install requests
+**Telegram Bot:** You need to set up a Telegram bot using BotFather and get your API token and chat ID.
+**Google Chrome:** Make sure you have Google Chrome installed.
 
 ## Installation
 
@@ -40,13 +40,13 @@ python odds_scraper.py
 
 ## How It Works
 
-Scraping Odds: The script scrapes soccer match odds from the Stoiximan website using the undetected_chromedriver to avoid detection by the site.
+**Scraping Odds:** The script scrapes soccer match odds from the Stoiximan website using the undetected_chromedriver to avoid detection by the site.
 
-Odds Monitoring: The script continuously checks for changes in odds. It monitors for Over, Under, 1X2 results, and the goals market (e.g., Over/Under 2.5 goals).
+**Odds Monitoring:** The script continuously checks for changes in odds. It monitors for Over, Under, 1X2 results, and the goals market (e.g., Over/Under 2.5 goals).
 
-Sending Alerts: If the percentage change of any odd exceeds the defined threshold (default 10%), a message is generated and sent to a Telegram channel.
+**Sending Alerts:** If the percentage change of any odd exceeds the defined threshold (default 10%), a message is generated and sent to a Telegram channel.
 
-Dynamic Updates: The script runs in an infinite loop and updates odds every few seconds, ensuring that you get timely alerts on changes in betting odds.
+**Dynamic Updates:** The script runs in an infinite loop and updates odds every few seconds, ensuring that you get timely alerts on changes in betting odds.
 
 ## Configuration
 Thresholds: Change the threshold for alerting odds change in the Match_DAT class:
@@ -68,12 +68,13 @@ Current odds: 1.85, Previous odds: 1.90
 Percentage of change: 2.63%
 
 ## Error Handling
+
 The script is designed to continue running even if an exception occurs. If an error is encountered, a debug message is sent to the Telegram channel.
 
 ## Troubleshooting
 
-Bot not sending messages: Ensure the bot has permission to send messages to the specified channel. You may need to add the bot to the channel and grant appropriate permissions.
+**-Bot not sending messages:** Ensure the bot has permission to send messages to the specified channel. You may need to add the bot to the channel and grant appropriate permissions.
 
-No matches being scraped: Ensure that the website's structure has not changed. If changes occur, the XPATH or class selectors for scraping may need to be updated.
+**-No matches being scraped:** Ensure that the website's structure has not changed. If changes occur, the XPATH or class selectors for scraping may need to be updated.
 
-Page opening and closing instantly: Try updating google Chrome or make sure creds.txt is on the same folder and contains the right credentials
+**-Page opening and closing instantly:** Try updating google Chrome or make sure creds.txt is on the same folder and contains the right credentials
